@@ -941,7 +941,7 @@ TSDB_FALLOS_SEGUIDOS = [0]
 INICIO_CICLO = time.time()
 TIEMPO_MAX_DESCARGAS = float(os.getenv("TIEMPO_MAX_DESCARGAS", "540"))   # segundos para descargar datos en cada ciclo
 TIEMPO_MAX_RELLENO = float(os.getenv("TIEMPO_MAX_RELLENO", "240"))      # segundos para rellenar histórico en cada ciclo
-RELLENO_DIAS_TSDB_CICLO = int(os.getenv("RELLENO_DIAS_TSDB_CICLO", "6"))  # días de histórico (Euroliga/ACB/BCL) por ciclo
+RELLENO_DIAS_TSDB_CICLO = int(os.getenv("RELLENO_DIAS_TSDB_CICLO", "3"))  # días de histórico por liga (Euroliga/ACB/BCL) y ciclo
 
 
 def tiempo_usado():
@@ -1329,7 +1329,6 @@ def rellenar_historico(resultados, ahora_utc):
     hoy = ahora_utc.date()
     t0 = time.time()
     dias_hechos = resultados.setdefault("relleno_dias", {})
-    presupuesto_relleno = [RELLENO_DIAS_TSDB_CICLO]
     for comp in LEAGUES_MAP:
         n = len(resultados["ligas"].get(comp, []))
         estado = resultados["relleno"].get(comp, "")
@@ -1349,6 +1348,7 @@ def rellenar_historico(resultados, ahora_utc):
             resultados["relleno"][comp] = "temporada"
         dias_max = 30 if comp == "NBA" else 42
         hechos = set(dias_hechos.get(comp, []))
+        presupuesto_relleno = [RELLENO_DIAS_TSDB_CICLO]
         for k in range(1, dias_max + 1):
             if comp != "NBA" and presupuesto_relleno[0] <= 0:
                 break
