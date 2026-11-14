@@ -4,7 +4,7 @@ Versión de Apex Quant para baloncesto: **NBA, Euroliga, Liga Endesa (ACB) y Bas
 Misma estructura, estilo y funcionamiento que Apex Quant fútbol y Apex Quant Mercados.
 
 - Web / app: https://apexquantbot.github.io/apex-quant-baloncesto/
-- Canal de Telegram: https://t.me/apexquant_baloncesto
+- Canal de Telegram: https://t.me/apex_quant_basket
 
 ## Cómo funciona
 
@@ -31,7 +31,7 @@ Misma estructura, estilo y funcionamiento que Apex Quant fútbol y Apex Quant Me
 | Nombre | Obligatorio | Valor |
 |---|---|---|
 | `TELEGRAM_BOT_TOKEN` | Sí | Token del bot de Telegram (BotFather) |
-| `TELEGRAM_CHAT_ID` | Sí | `@apexquant_baloncesto` (o el ID numérico del canal) |
+| `TELEGRAM_CHAT_ID` | Sí | `@apex_quant_basket` (o el ID numérico del canal) |
 | `THE_ODDS_API_KEY` | Recomendado | Clave de The Odds API (mejor una propia, distinta de la del bot de fútbol) |
 | `TSDB_KEY` | No | Solo si algún día se paga TheSportsDB premium |
 
