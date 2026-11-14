@@ -933,41 +933,68 @@ def normalizar_texto(texto):
 # ==============================================================================
 HTTP_HEADERS = {"User-Agent": "Mozilla/5.0 (ApexQuantBaloncesto; +https://apexquantbot.github.io/apex-quant-baloncesto/)",
                 "Accept": "application/json"}
-DIAG_FUENTES = {"espn_ok": 0, "espn_error": 0, "tsdb_ok": 0, "tsdb_error": 0, "tsdb_vacias": 0, "por_liga": {}}
+DIAG_FUENTES = {"espn_ok": 0, "espn_error": 0, "tsdb_ok": 0, "tsdb_error": 0, "tsdb_vacias": 0, "por_liga": {},
+                "tsdb_cortado": False, "muestras": []}
 TSDB_ULTIMA = [0.0]
 TSDB_PAUSA = 2.1    # TheSportsDB gratis: 30 peticiones por minuto
+TSDB_FALLOS_SEGUIDOS = [0]
+INICIO_CICLO = time.time()
+TIEMPO_MAX_DESCARGAS = float(os.getenv("TIEMPO_MAX_DESCARGAS", "540"))   # segundos para descargar datos en cada ciclo
+TIEMPO_MAX_RELLENO = float(os.getenv("TIEMPO_MAX_RELLENO", "240"))      # segundos para rellenar histórico en cada ciclo
+
+
+def tiempo_usado():
+    return time.time() - INICIO_CICLO
+
+
+def _muestra(origen, url, st, data):
+    if len(DIAG_FUENTES["muestras"]) < 12:
+        txt = json.dumps(data, ensure_ascii=False)[:160] if data is not None else None
+        DIAG_FUENTES["muestras"].append({"o": origen, "url": url[-90:], "st": st, "r": txt})
 ESTADOS_CERRADOS = ("FINISHED", "CANCELLED", "POSTPONED")
 
 
 def http_json(url, params=None, intentos=2):
     for intento in range(intentos):
         try:
-            res = requests.get(url, params=params, headers=HTTP_HEADERS, timeout=15)
+            res = requests.get(url, params=params, headers=HTTP_HEADERS, timeout=(5, 12))
             if res.status_code == 200:
                 try:
                     return res.json(), 200
                 except Exception:
-                    return None, 200
-            if res.status_code == 429:
-                time.sleep(5 + 5 * intento)
+                    return None, "200-no-json"
+            if res.status_code == 429 and intento + 1 < intentos:
+                time.sleep(3)
                 continue
             return None, res.status_code
         except Exception as e:
             print(f"   Aviso red ({url.split('?')[0]}): {e}")
-            time.sleep(2)
-    return None, None
+            if intento + 1 < intentos:
+                time.sleep(1)
+    return None, "sin-respuesta"
 
 
 def tsdb_get(endpoint, params):
+    """GET a TheSportsDB con pausa entre peticiones y "cortacircuitos": si falla varias veces seguidas
+    (límite de peticiones o caída) se deja de consultar en este ciclo para no bloquear el bot."""
+    if DIAG_FUENTES["tsdb_cortado"] or tiempo_usado() > TIEMPO_MAX_DESCARGAS:
+        return None
     espera = TSDB_PAUSA - (time.time() - TSDB_ULTIMA[0])
     if espera > 0:
         time.sleep(espera)
     TSDB_ULTIMA[0] = time.time()
-    data, st = http_json(f"https://www.thesportsdb.com/api/v1/json/{TSDB_KEY}/{endpoint}", params)
+    url = f"https://www.thesportsdb.com/api/v1/json/{TSDB_KEY}/{endpoint}"
+    data, st = http_json(url, params)
+    _muestra("tsdb", f"{endpoint}?{'&'.join(f'{k}={v}' for k, v in params.items())}", st, data)
     if data is None:
         DIAG_FUENTES["tsdb_error"] += 1
+        TSDB_FALLOS_SEGUIDOS[0] += 1
         print(f"   ⚠️ TheSportsDB {endpoint} {params}: HTTP {st}")
+        if TSDB_FALLOS_SEGUIDOS[0] >= 4:
+            DIAG_FUENTES["tsdb_cortado"] = True
+            print("   ⛔ TheSportsDB no responde: se deja para el siguiente ciclo")
         return None
+    TSDB_FALLOS_SEGUIDOS[0] = 0
     DIAG_FUENTES["tsdb_ok"] += 1
     return data
 
@@ -1005,8 +1032,11 @@ def _estado_espn(comp):
 
 
 def espn_partidos_dia(fecha_yyyymmdd):
+    if tiempo_usado() > TIEMPO_MAX_DESCARGAS:
+        return []
     data, st = http_json("https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard",
                          {"dates": fecha_yyyymmdd, "limit": 100})
+    _muestra("espn", f"scoreboard?dates={fecha_yyyymmdd}", st, None if data is None else {"events": len(data.get("events") or [])})
     if data is None:
         DIAG_FUENTES["espn_error"] += 1
         print(f"   ⚠️ ESPN NBA {fecha_yyyymmdd}: HTTP {st}")
@@ -1299,32 +1329,58 @@ def refrescar_partidos_atascados(partidos_raw, partidos_previos, ahora_utc, aler
     return diag
 
 
+def _temporadas_tsdb(ahora_utc):
+    a = ahora_utc.year if ahora_utc.month >= 8 else ahora_utc.year - 1
+    return [f"{a}-{a + 1}", str(a)]
+
+
 def rellenar_historico(resultados, ahora_utc):
-    """La primera vez (y si una liga tiene pocos resultados) se descargan los resultados de las últimas
-    semanas para que el modelo estadístico tenga base desde el primer día."""
+    """Descarga los resultados de la temporada para que el modelo tenga base desde el primer día.
+    Primero se intenta la temporada completa de una vez; si la API no la da, se va día a día hacia atrás
+    (con un tiempo máximo por ciclo: lo que falte se completa en los ciclos siguientes)."""
     hoy = ahora_utc.date()
-    hoy_str = hoy.isoformat()
+    t0 = time.time()
+    dias_hechos = resultados.setdefault("relleno_dias", {})
     for comp in LEAGUES_MAP:
         n = len(resultados["ligas"].get(comp, []))
-        ultimo = resultados["relleno"].get(comp, "")
-        if n >= 60 or ultimo == hoy_str:
+        estado = resultados["relleno"].get(comp, "")
+        if n >= 80 or estado == "completo":
             continue
-        dias = 28 if comp == "NBA" else 35
-        print(f"📚 Rellenando histórico de {LEAGUES_MAP[comp]['name']} (tiene {n} resultados): últimos {dias} días...")
+        print(f"📚 Rellenando histórico de {LEAGUES_MAP[comp]['name']} (tiene {n} resultados)...")
         nuevos = 0
-        if comp == "NBA":
-            for k in range(1, dias + 1):
-                for m in espn_partidos_dia((hoy - timedelta(days=k)).strftime("%Y%m%d")):
-                    nuevos += registrar_resultado(resultados, m)
-        else:
+        if comp != "NBA" and not estado.startswith("temporada"):
+            for temporada in _temporadas_tsdb(ahora_utc):
+                data = tsdb_get("eventsseason.php", {"id": LEAGUES_MAP[comp]["tsdb"], "s": temporada})
+                evs = _eventos_de_liga(data, comp)
+                for e in evs:
+                    nuevos += registrar_resultado(resultados, tsdb_a_partido(e, comp, ahora_utc))
+                if evs:
+                    print(f"   Temporada {temporada}: {len(evs)} partidos en la API")
+                    break
             for m in tsdb_partidos_liga(comp, "eventspastleague.php", ahora_utc):
                 nuevos += registrar_resultado(resultados, m)
-            for k in range(1, dias + 1):
-                d = (hoy - timedelta(days=k)).isoformat()
-                for m in tsdb_partidos_dia(comp, d, ahora_utc):
-                    nuevos += registrar_resultado(resultados, m)
-        resultados["relleno"][comp] = hoy_str
-        print(f"   +{nuevos} resultados ({LEAGUES_MAP[comp]['name']})")
+            resultados["relleno"][comp] = "temporada"
+        dias_max = 30 if comp == "NBA" else 42
+        hechos = set(dias_hechos.get(comp, []))
+        for k in range(1, dias_max + 1):
+            if time.time() - t0 > TIEMPO_MAX_RELLENO or tiempo_usado() > TIEMPO_MAX_DESCARGAS:
+                break
+            d = hoy - timedelta(days=k)
+            if d.isoformat() in hechos:
+                continue
+            if comp == "NBA":
+                lista = espn_partidos_dia(d.strftime("%Y%m%d"))
+            else:
+                if DIAG_FUENTES["tsdb_cortado"]:
+                    break
+                lista = tsdb_partidos_dia(comp, d.isoformat(), ahora_utc)
+            for m in lista:
+                nuevos += registrar_resultado(resultados, m)
+            hechos.add(d.isoformat())
+        dias_hechos[comp] = sorted(hechos)[-60:]
+        if len([x for x in hechos]) >= dias_max:
+            resultados["relleno"][comp] = "completo"
+        print(f"   +{nuevos} resultados ({LEAGUES_MAP[comp]['name']}) · días revisados {len(hechos)}/{dias_max}")
 
 
 def cargar_datos_existentes():

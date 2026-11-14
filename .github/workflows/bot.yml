@@ -36,7 +36,7 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           TSDB_KEY: ${{ secrets.TSDB_KEY }}
-        run: python bot_quant.py
+        run: python -u bot_quant.py
 
       - name: Guardar y publicar datos.json
         run: |
