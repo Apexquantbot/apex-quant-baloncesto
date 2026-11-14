@@ -936,11 +936,12 @@ HTTP_HEADERS = {"User-Agent": "Mozilla/5.0 (ApexQuantBaloncesto; +https://apexqu
 DIAG_FUENTES = {"espn_ok": 0, "espn_error": 0, "tsdb_ok": 0, "tsdb_error": 0, "tsdb_vacias": 0, "por_liga": {},
                 "tsdb_cortado": False, "muestras": []}
 TSDB_ULTIMA = [0.0]
-TSDB_PAUSA = 2.1    # TheSportsDB gratis: 30 peticiones por minuto
+TSDB_PAUSA = float(os.getenv("TSDB_PAUSA", "3.2"))    # TheSportsDB gratis: máx. 30 peticiones por minuto (vamos holgados)
 TSDB_FALLOS_SEGUIDOS = [0]
 INICIO_CICLO = time.time()
 TIEMPO_MAX_DESCARGAS = float(os.getenv("TIEMPO_MAX_DESCARGAS", "540"))   # segundos para descargar datos en cada ciclo
 TIEMPO_MAX_RELLENO = float(os.getenv("TIEMPO_MAX_RELLENO", "240"))      # segundos para rellenar histórico en cada ciclo
+RELLENO_DIAS_TSDB_CICLO = int(os.getenv("RELLENO_DIAS_TSDB_CICLO", "6"))  # días de histórico (Euroliga/ACB/BCL) por ciclo
 
 
 def tiempo_usado():
@@ -948,7 +949,7 @@ def tiempo_usado():
 
 
 def _muestra(origen, url, st, data):
-    if len(DIAG_FUENTES["muestras"]) < 12:
+    if sum(1 for m in DIAG_FUENTES["muestras"] if m["o"] == origen) < 10:
         txt = json.dumps(data, ensure_ascii=False)[:160] if data is not None else None
         DIAG_FUENTES["muestras"].append({"o": origen, "url": url[-90:], "st": st, "r": txt})
 ESTADOS_CERRADOS = ("FINISHED", "CANCELLED", "POSTPONED")
@@ -984,13 +985,15 @@ def tsdb_get(endpoint, params):
         time.sleep(espera)
     TSDB_ULTIMA[0] = time.time()
     url = f"https://www.thesportsdb.com/api/v1/json/{TSDB_KEY}/{endpoint}"
-    data, st = http_json(url, params)
+    data, st = http_json(url, params, intentos=1)
+    if st == 429:
+        time.sleep(15)
     _muestra("tsdb", f"{endpoint}?{'&'.join(f'{k}={v}' for k, v in params.items())}", st, data)
     if data is None:
         DIAG_FUENTES["tsdb_error"] += 1
         TSDB_FALLOS_SEGUIDOS[0] += 1
         print(f"   ⚠️ TheSportsDB {endpoint} {params}: HTTP {st}")
-        if TSDB_FALLOS_SEGUIDOS[0] >= 4:
+        if TSDB_FALLOS_SEGUIDOS[0] >= 3:
             DIAG_FUENTES["tsdb_cortado"] = True
             print("   ⛔ TheSportsDB no responde: se deja para el siguiente ciclo")
         return None
@@ -1180,10 +1183,6 @@ def tsdb_partidos_dia(comp_code, fecha, ahora_utc):
     for e in _eventos_de_liga(data, comp_code):
         vistos[e["idEvent"]] = e
     if not vistos:
-        data = tsdb_get("eventsday.php", {"d": fecha, "l": cfg["tsdb"]})
-        for e in _eventos_de_liga(data, comp_code):
-            vistos[e["idEvent"]] = e
-    if not vistos:
         DIAG_FUENTES["tsdb_vacias"] += 1
     return [tsdb_a_partido(e, comp_code, ahora_utc) for e in vistos.values()]
 
@@ -1219,7 +1218,7 @@ def obtener_partidos_completos(lunes_semana_str, domingo_semana_str, partidos_pr
     ahora_utc = datetime.now(timezone.utc)
     hoy = ahora_utc.astimezone(TZ_MADRID).date()
     desde = max(datetime.fromisoformat(lunes_semana_str).date(), hoy - timedelta(days=1))
-    hasta = hoy + timedelta(days=3)
+    hasta = hoy + timedelta(days=2)
     if not partidos_previos:   # primer ciclo de la semana: se recorre la semana entera
         desde = datetime.fromisoformat(lunes_semana_str).date()
     matches = {}
@@ -1341,6 +1340,7 @@ def rellenar_historico(resultados, ahora_utc):
     hoy = ahora_utc.date()
     t0 = time.time()
     dias_hechos = resultados.setdefault("relleno_dias", {})
+    presupuesto_relleno = [RELLENO_DIAS_TSDB_CICLO]
     for comp in LEAGUES_MAP:
         n = len(resultados["ligas"].get(comp, []))
         estado = resultados["relleno"].get(comp, "")
@@ -1363,6 +1363,8 @@ def rellenar_historico(resultados, ahora_utc):
         dias_max = 30 if comp == "NBA" else 42
         hechos = set(dias_hechos.get(comp, []))
         for k in range(1, dias_max + 1):
+            if comp != "NBA" and presupuesto_relleno[0] <= 0:
+                break
             if time.time() - t0 > TIEMPO_MAX_RELLENO or tiempo_usado() > TIEMPO_MAX_DESCARGAS:
                 break
             d = hoy - timedelta(days=k)
@@ -1374,6 +1376,7 @@ def rellenar_historico(resultados, ahora_utc):
                 if DIAG_FUENTES["tsdb_cortado"]:
                     break
                 lista = tsdb_partidos_dia(comp, d.isoformat(), ahora_utc)
+                presupuesto_relleno[0] -= 1
             for m in lista:
                 nuevos += registrar_resultado(resultados, m)
             hechos.add(d.isoformat())
@@ -1800,10 +1803,10 @@ def ejecutar_ciclo():
 
     # HISTÓRICO DE RESULTADOS (base del modelo estadístico y de las rachas)
     resultados = cargar_resultados()
-    rellenar_historico(resultados, ahora_utc)
 
     # OBTENCIÓN DE PARTIDOS (DESDE EL LUNES DE LA SEMANA HASTA DÍAS FUTUROS)
     partidos_raw = obtener_partidos_completos(lunes_semana_str, domingo_semana_str, partidos_previos)
+    rellenar_historico(resultados, ahora_utc)   # después de lo urgente: lo que falte se completa en otros ciclos
     partidos_api_n = len(partidos_raw)
     diag_refresco = refrescar_partidos_atascados(partidos_raw, partidos_previos, ahora_utc, alertas_acumuladas)
     print(f"🩺 Diagnóstico partidos: API={partidos_api_n} | atascados={diag_refresco['atascados']} | "
