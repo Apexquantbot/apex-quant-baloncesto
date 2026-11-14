@@ -936,7 +936,7 @@ HTTP_HEADERS = {"User-Agent": "Mozilla/5.0 (ApexQuantBaloncesto; +https://apexqu
 DIAG_FUENTES = {"espn_ok": 0, "espn_error": 0, "tsdb_ok": 0, "tsdb_error": 0, "tsdb_vacias": 0, "por_liga": {},
                 "tsdb_cortado": False, "muestras": []}
 TSDB_ULTIMA = [0.0]
-TSDB_PAUSA = float(os.getenv("TSDB_PAUSA", "3.2"))    # TheSportsDB gratis: máx. 30 peticiones por minuto (vamos holgados)
+TSDB_PAUSA = float(os.getenv("TSDB_PAUSA", "6"))    # TheSportsDB gratis: máx. 30 peticiones por minuto (vamos holgados)
 TSDB_FALLOS_SEGUIDOS = [0]
 INICIO_CICLO = time.time()
 TIEMPO_MAX_DESCARGAS = float(os.getenv("TIEMPO_MAX_DESCARGAS", "540"))   # segundos para descargar datos en cada ciclo
@@ -1179,7 +1179,7 @@ def _eventos_de_liga(data, comp_code):
 def tsdb_partidos_dia(comp_code, fecha, ahora_utc):
     cfg = LEAGUES_MAP[comp_code]
     vistos = {}
-    data = tsdb_get("eventsday.php", {"d": fecha, "l": cfg["tsdb_nombre"]})
+    data = tsdb_get("eventsday.php", {"d": fecha, "l": cfg["tsdb"]})   # la API exige el ID de la liga
     for e in _eventos_de_liga(data, comp_code):
         vistos[e["idEvent"]] = e
     if not vistos:
@@ -1237,17 +1237,6 @@ def obtener_partidos_completos(lunes_semana_str, domingo_semana_str, partidos_pr
         for d in _fechas(desde.isoformat(), hasta.isoformat()):
             for m in tsdb_partidos_dia(comp, d.isoformat(), ahora_utc):
                 matches[m["id"]] = m
-        # complemento: próximos partidos y últimos resultados de la competición
-        for endpoint in ("eventsnextleague.php", "eventspastleague.php"):
-            for m in tsdb_partidos_liga(comp, endpoint, ahora_utc):
-                try:
-                    f = datetime.fromisoformat(m["utcDate"].replace("Z", "+00:00")).astimezone(TZ_MADRID).date()
-                except Exception:
-                    continue
-                if desde - timedelta(days=7) <= f <= hasta:
-                    actual = matches.get(m["id"])
-                    if not actual or (actual["status"] != "FINISHED" and m["status"] == "FINISHED"):
-                        matches[m["id"]] = m
         n = sum(1 for m in matches.values() if m["competition"]["code"] == comp)
         DIAG_FUENTES["por_liga"][comp] = n
         print(f"📡 [TheSportsDB] {LEAGUES_MAP[comp]['name']}: {n} partidos (+{len(matches) - antes})")
@@ -1357,8 +1346,6 @@ def rellenar_historico(resultados, ahora_utc):
                 if evs:
                     print(f"   Temporada {temporada}: {len(evs)} partidos en la API")
                     break
-            for m in tsdb_partidos_liga(comp, "eventspastleague.php", ahora_utc):
-                nuevos += registrar_resultado(resultados, m)
             resultados["relleno"][comp] = "temporada"
         dias_max = 30 if comp == "NBA" else 42
         hechos = set(dias_hechos.get(comp, []))
