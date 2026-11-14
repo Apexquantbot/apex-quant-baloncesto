@@ -912,6 +912,9 @@ def enviar_telegram(mensaje, url_accion=None, texto_boton="📱 Abrir en Web App
             res = requests.post(url, json=payload, timeout=12)
             if res.status_code == 200:
                 return True
+            print(f"⚠️ Telegram rechazó el mensaje (HTTP {res.status_code}): {res.text[:200]}")
+            if res.status_code in (400, 401, 403, 404):
+                return False   # token o canal incorrectos: reintentar no sirve
             time.sleep(1.5)
         except Exception as e:
             print(f"Error Telegram intento {intento+1}: {e}")
@@ -1774,6 +1777,16 @@ def ejecutar_ciclo():
     partidos_previos = datos_previos.get("partidos", [])
     semana_guardada = datos_previos.get("semana_activa", semana_actual_id)
     resumen_semanal_enviado = datos_previos.get("resumen_semanal_enviado_para", "")
+
+    # Mensaje de bienvenida (una sola vez): confirma que el bot puede publicar en el canal
+    telegram_ok = bool(datos_previos.get("telegram_ok"))
+    if not telegram_ok and TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID:
+        telegram_ok = enviar_telegram(
+            "🏀 <b>APEX QUANT BALONCESTO</b> ya está en marcha.\n\n"
+            "Aquí recibirás las alertas con valor (+EV) de la <b>NBA</b>, la <b>Euroliga</b>, la <b>Liga Endesa (ACB)</b> "
+            "y la <b>Basketball Champions League</b>, unos 15-90 minutos antes de cada partido, con su resultado al terminar "
+            "y un resumen semanal.", None, "📱 Abrir Apex Quant Baloncesto")
+        print(f"📨 Mensaje de bienvenida a Telegram: {'enviado ✅' if telegram_ok else 'FALLO ❌'}")
     resumen_mensual_enviado = datos_previos.get("resumen_mensual_enviado_para", "")
 
     # REINICIO AUTOMÁTICO CADA LUNES A LAS 00:00H
@@ -2349,6 +2362,7 @@ def ejecutar_ciclo():
         "api_cuotas_estado": estado_api_cuotas,
         "creditos_dia": ODDS_ESTADO.get("dia"),
         "formas_equipos": formas_equipos,
+        "telegram_ok": telegram_ok,
         "diagnostico": {"perfil_mercados": ODDS_ESTADO.get("perfil"), "presupuesto_dia": (round(ODDS_ESTADO["presupuesto_dia"], 1) if ODDS_ESTADO.get("presupuesto_dia") else None), "partidos_api": partidos_api_n, "atascados": diag_refresco["atascados"],
                         "ausentes": diag_refresco["ausentes"], "alertas_pendientes": diag_refresco["alertas"],
                         "refrescados": diag_refresco["refrescados"],
