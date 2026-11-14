@@ -6,12 +6,13 @@ import unicodedata
 import math
 import random
 import itertools
+import jugadores
 import difflib
 from urllib.parse import quote
 from datetime import datetime, timezone, timedelta
 from zoneinfo import ZoneInfo
 
-VERSION = "1.0"
+VERSION = "1.1"
 
 # ==============================================================================
 # APEX QUANT BALONCESTO
@@ -30,12 +31,13 @@ TZ_MADRID = ZoneInfo("Europe/Madrid")
 
 # Fuentes de datos (todas gratuitas y sin registro):
 #   NBA  -> ESPN (marcadores en directo, escudos y calendario completo)
-#   Euroliga, ACB y BCL -> TheSportsDB
+#   Euroliga -> API oficial de la Euroliga (calendario completo, resultados y escudos)
+#   ACB y BCL -> TheSportsDB
 LEAGUES_MAP = {
     "NBA": {"name": "NBA", "key": "nba", "country": "USA", "flag": "🇺🇸", "fuente": "espn",
             "tsdb": "4387", "tsdb_nombre": "NBA", "min_partido": 48,
             "media_pts": 114.0, "ventaja_local": 2.2, "sd_margen": 13.0, "sd_total": 19.0, "duracion_min": 160},
-    "EL":  {"name": "Euroliga", "key": "euroliga", "country": "EUR", "flag": "🇪🇺", "fuente": "tsdb",
+    "EL":  {"name": "Euroliga", "key": "euroliga", "country": "EUR", "flag": "🇪🇺", "fuente": "euroliga",
             "tsdb": "4546", "tsdb_nombre": "EuroLeague Basketball", "min_partido": 40,
             "media_pts": 83.0, "ventaja_local": 3.0, "sd_margen": 11.5, "sd_total": 15.0, "duracion_min": 135},
     "ACB": {"name": "Liga Endesa ACB", "key": "acb", "country": "ESP", "flag": "🇪🇸", "fuente": "tsdb",
@@ -325,6 +327,8 @@ def cargar_resultados():
                 d = json.load(f)
                 d.setdefault("ligas", {})
                 d.setdefault("relleno", {})
+                if any(r.get("id", "").startswith("tsdb") for r in d["ligas"].get("EL", [])):
+                    d["ligas"]["EL"] = [r for r in d["ligas"]["EL"] if not r.get("id", "").startswith("tsdb")]
                 return d
         except Exception as e:
             print(f"Aviso leyendo {ARCHIVO_RESULTADOS}: {e}")
@@ -1205,6 +1209,57 @@ def tsdb_partido(pid, comp_code, ahora_utc):
     return tsdb_a_partido(e, cc, ahora_utc) if cc else None
 
 
+# ---------------------------- Euroliga (API oficial) --------------------------
+EL_CACHE = {}
+
+
+def temporada_euroliga(ahora_utc):
+    return f"E{ahora_utc.year if ahora_utc.month >= 8 else ahora_utc.year - 1}"
+
+
+def el_partidos(ahora_utc):
+    """Todos los partidos de la temporada de Euroliga en una sola llamada (sin límite de partidos por día)."""
+    if "lista" in EL_CACHE:
+        return EL_CACHE["lista"]
+    temporada = temporada_euroliga(ahora_utc)
+    data, st = http_json(f"https://api-live.euroleague.net/v2/competitions/E/seasons/{temporada}/games")
+    _muestra("euroliga", f"games {temporada}", st, None if data is None else {"n": len((data or {}).get("data") or [])})
+    salida = []
+    for g in (data or {}).get("data") or []:
+        try:
+            loc, vis = g.get("local") or {}, g.get("road") or {}
+            cl, cv = loc.get("club") or {}, vis.get("club") or {}
+            if not cl.get("code") or not cv.get("code") or cl.get("isVirtual") or cv.get("isVirtual"):
+                continue
+            utc = (g.get("utcDate") or "").strip()
+            t = datetime.fromisoformat(utc.replace("Z", "+00:00")) if utc else None
+            mins = (ahora_utc - t).total_seconds() / 60.0 if t else None
+            sh, sa = _int_o_none(loc.get("score")), _int_o_none(vis.get("score"))
+            estado_txt = (g.get("gameStatus") or "").lower()
+            if g.get("played"):
+                status = "FINISHED"
+            elif "postpon" in estado_txt:
+                status = "POSTPONED"
+            elif "cancel" in estado_txt:
+                status = "CANCELLED"
+            elif mins is not None and 0 <= mins <= LEAGUES_MAP["EL"]["duracion_min"]:
+                status = "IN_PLAY"
+            else:
+                status = "TIMED"
+            if status == "TIMED":
+                sh = sa = None
+            crest = lambda c: ((c.get("images") or {}).get("crest") or "")
+            salida.append({"id": f"el{g.get('gameCode')}", "utcDate": utc, "status": status, "detalle": "",
+                           "competition": {"code": "EL"},
+                           "homeTeam": {"id": f"el{cl['code']}", "name": cl.get("name") or cl["code"], "crest": crest(cl)},
+                           "awayTeam": {"id": f"el{cv['code']}", "name": cv.get("name") or cv["code"], "crest": crest(cv)},
+                           "score": {"fullTime": {"home": sh, "away": sa}}})
+        except Exception as e:
+            print(f"   Aviso partido Euroliga: {e}")
+    EL_CACHE["lista"] = salida
+    return salida
+
+
 def _fechas(desde, hasta):
     d = datetime.fromisoformat(desde).date()
     h = datetime.fromisoformat(hasta).date()
@@ -1234,8 +1289,21 @@ def obtener_partidos_completos(lunes_semana_str, domingo_semana_str, partidos_pr
     DIAG_FUENTES["por_liga"]["NBA"] = n_nba
     print(f"📡 [ESPN] NBA: {n_nba} partidos ({desde - timedelta(days=1)} a {hasta})")
 
-    # Euroliga, ACB y Champions League (TheSportsDB)
-    for comp in ("EL", "ACB", "BCL"):
+    # Euroliga (API oficial): la semana y los próximos días
+    n_el = 0
+    for m in el_partidos(ahora_utc):
+        try:
+            f = datetime.fromisoformat(m["utcDate"].replace("Z", "+00:00")).astimezone(TZ_MADRID).date()
+        except Exception:
+            continue
+        if datetime.fromisoformat(lunes_semana_str).date() - timedelta(days=1) <= f <= hasta:
+            matches[m["id"]] = m
+            n_el += 1
+    DIAG_FUENTES["por_liga"]["EL"] = n_el
+    print(f"📡 [Euroliga oficial] Euroliga: {n_el} partidos")
+
+    # ACB y Champions League (TheSportsDB)
+    for comp in ("ACB", "BCL"):
         antes = len(matches)
         for d in _fechas(desde.isoformat(), hasta.isoformat()):
             for m in tsdb_partidos_dia(comp, d.isoformat(), ahora_utc):
@@ -1252,6 +1320,8 @@ def refrescar_partido(pid, comp_code, ahora_utc):
         return espn_partido(pid)
     if pid.startswith("tsdb"):
         return tsdb_partido(pid, comp_code, ahora_utc)
+    if pid.startswith("el"):
+        return next((m for m in el_partidos(ahora_utc) if m["id"] == pid), None)
     return None
 
 
@@ -1332,6 +1402,9 @@ def rellenar_historico(resultados, ahora_utc):
     hoy = ahora_utc.date()
     t0 = time.time()
     dias_hechos = resultados.setdefault("relleno_dias", {})
+    for m in el_partidos(ahora_utc):   # la API oficial da toda la temporada de Euroliga de una vez
+        registrar_resultado(resultados, m)
+    resultados["relleno"]["EL"] = "completo"
     for comp in LEAGUES_MAP:
         n = len(resultados["ligas"].get(comp, []))
         estado = resultados["relleno"].get(comp, "")
@@ -2071,6 +2144,8 @@ def ejecutar_ciclo():
         tiene_pron = analisis is not None
         item = {
             "id": p.get("id"),
+            "local_id": home_team_data.get("id"),
+            "visitante_id": away_team_data.get("id"),
             "local": nombre_local,
             "visitante": nombre_visitante,
             "escudo_local": escudo_local,
@@ -2137,6 +2212,22 @@ def ejecutar_ciclo():
             partidos_para_web[i] = restaurado
 
     # COMBINADAS DE FAVORITOS (máx. 3 partidos, misma casa, +EV conjunto y respaldo estadístico)
+    # MERCADOS DE JUGADORES Y MYMATCH (NBA y Euroliga)
+    try:
+        store_jug = jugadores.cargar_store()
+        jugadores.actualizar_box_scores(store_jug, resultados, INICIO_CICLO + TIEMPO_MAX_DESCARGAS + 120)
+        fuerzas_ligas = {lg: obtener_fuerzas_liga(lg, cache_stats_liga) for lg in jugadores.LIGAS_PROPS}
+        n_props = jugadores.generar_alertas(partidos_para_web, store_jug, resultados, fuerzas_ligas, alertas_acumuladas,
+                                            semana_actual_id, enviar_telegram, APP_URL, (VENTANA_MIN, VENTANA_MAX))
+        jugadores.liquidar(alertas_acumuladas, store_jug, partidos_map_por_id, enviar_telegram, APP_URL)
+        jugadores.guardar_store(store_jug)
+        if n_props:
+            print(f"🏀 Alertas de jugadores/MyMatch nuevas: {n_props}")
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        print(f"⚠️ Error en el módulo de jugadores: {e}")
+
     if COMBI_ACTIVA:
         mejor_combi = buscar_mejor_combinada(partidos_para_web, alertas_acumuladas)
         if mejor_combi:
@@ -2149,7 +2240,7 @@ def ejecutar_ciclo():
     # RECONCILIACIÓN Y LIQUIDACIÓN
     liquidar_combinadas(alertas_acumuladas, partidos_map_por_id)
     for alerta in alertas_acumuladas:
-        if alerta.get("es_combinada"):
+        if alerta.get("es_combinada") or alerta.get("es_mymatch"):
             continue
         p_id = str(alerta.get("id_partido", ""))
         p_nombre = alerta.get("partido", "")

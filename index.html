@@ -724,7 +724,7 @@
     // =========================================================================
     // ESTADO DEL BOT (frescura de datos, API de cuotas, créditos)
     // =========================================================================
-    const VERSION_WEB = '1.0';
+    const VERSION_WEB = '1.1';
     function actualizarVersion() {
       const el = document.getElementById('verTxt');
       if (!el) return;
@@ -1233,7 +1233,21 @@
               <div class="flex-shrink-0">${badgeLiquidacion}</div>
             </div>
 
-            ${a.es_combinada && a.legs ? `
+            ${a.es_mymatch && a.legs ? `
+            <div class="text-sm font-extrabold text-white flex items-center gap-2 flex-wrap">
+              <span class="px-1.5 py-0.5 rounded text-[9px] font-extrabold ${a.legs.length > 1 ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40' : 'bg-sky-500/20 text-sky-300 border border-sky-500/40'}">${a.legs.length > 1 ? '🧩 MYMATCH ×' + a.legs.length : '👤 JUGADOR'}</span>
+              <span class="text-[12px] text-slate-200">${a.partido}</span>
+              ${a.marcador ? `<span class="text-[11px] font-mono text-slate-400">${a.marcador}</span>` : ''}
+            </div>
+            <div class="space-y-1">
+              ${a.legs.map(l => `
+                <div class="flex items-center justify-between gap-2 text-[12px]">
+                  <span class="text-slate-200 min-w-0">${l.res === true ? '✅' : (l.res === false ? '❌' : (l.res === 'NULA' ? '➖' : '⏳'))} <strong class="text-brand-primary">${l.mercado}</strong>${l.valor != null ? ` <span class="text-slate-400 text-[10px]">(${l.valor})</span>` : (l.media != null ? ` <span class="text-slate-500 text-[10px]">espera ${l.media}</span>` : '')}</span>
+                  <span class="font-mono text-slate-400 whitespace-nowrap text-[11px]">${l.prob}%</span>
+                </div>`).join('')}
+            </div>
+            <div class="text-[10px] text-slate-400 font-mono">Prob. ${a.legs.length > 1 ? 'de que acierten todas' : 'de acierto'} ${a.prob_combinada}%${a.legs.length > 1 ? ' · móntala en MyMatch de Winamax' : ''}</div>
+            ` : a.es_combinada && a.legs ? `
             <div class="text-sm font-extrabold text-white flex items-center gap-2 flex-wrap">
               <span class="px-1.5 py-0.5 rounded text-[9px] font-extrabold bg-violet-500/20 text-violet-300 border border-violet-500/40">COMBINADA DE PARTIDOS ×${a.legs.length}</span>
               <span class="text-[11px] text-slate-400 font-medium">${a.casa || ''}</span>
