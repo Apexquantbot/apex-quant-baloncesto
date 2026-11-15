@@ -510,6 +510,23 @@
     }
 
     // Obtiene la lista estricta de alertas de la semana en curso (reiniciadas los lunes a las 00:00)
+    // Etiqueta de cada tipo de mercado en las tarjetas de alertas (como JUGADOR y COMBINADA)
+    function tarjetaMercado(a) {
+      const tipo = (a.tipo_mercado || '').toUpperCase();
+      if (tipo === 'HANDICAP') return { txt: '⚖️ HÁNDICAP', cls: 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40' };
+      if (tipo === 'PUNTOS') return { txt: '🎯 PUNTOS TOTALES', cls: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' };
+      if (tipo === 'PUNTOS_EQUIPO') return { txt: '📊 PUNTOS EQUIPO', cls: 'bg-lime-500/20 text-lime-300 border border-lime-500/40' };
+      if (tipo === 'COMBO_MERCADOS') return { txt: '🧩 COMBINADA DE MERCADOS', cls: 'bg-violet-500/20 text-violet-300 border border-violet-500/40' };
+      return { txt: '🏆 VICTORIA', cls: 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/40' };
+    }
+
+    // Probabilidad del modelo: la guarda la alerta o, si es antigua, se toma del partido
+    function probAlerta(a) {
+      if (a.prob_modelo) return a.prob_modelo;
+      const p = (state.partidos || []).find(x => String(x.id) === String(a.id_partido) && x.mercado === a.mercado);
+      return p && p.prob_modelo ? p.prob_modelo : '';
+    }
+
     function obtenerAlertasSemanaActual() {
       const lunesLimite = state.lunesSemana || '';
       return state.alertas.filter(a => esDeLaSemanaActual(a, lunesLimite));
@@ -1235,7 +1252,7 @@
 
             ${a.es_mymatch && a.legs ? `
             <div class="text-sm font-extrabold text-white flex items-center gap-2 flex-wrap">
-              <span class="px-1.5 py-0.5 rounded text-[9px] font-extrabold ${a.legs.length > 1 ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40' : 'bg-sky-500/20 text-sky-300 border border-sky-500/40'}">${a.legs.length > 1 ? '🧩 MYMATCH ×' + a.legs.length : '👤 JUGADOR'}</span>
+              <span class="px-1.5 py-0.5 rounded text-[9px] font-extrabold ${a.legs.length > 1 ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40' : 'bg-sky-500/20 text-sky-300 border border-sky-500/40'}">${a.legs.length > 1 ? '🧩 COMBINADA ×' + a.legs.length : '👤 JUGADOR'}</span>
               <span class="text-[12px] text-slate-200">${a.partido}</span>
               ${a.marcador ? `<span class="text-[11px] font-mono text-slate-400">${a.marcador}</span>` : ''}
             </div>
@@ -1246,7 +1263,7 @@
                   <span class="font-mono text-slate-400 whitespace-nowrap text-[11px]">${l.prob}%</span>
                 </div>`).join('')}
             </div>
-            <div class="text-[10px] text-slate-400 font-mono">Prob. ${a.legs.length > 1 ? 'de que acierten todas' : 'de acierto'} ${a.prob_combinada}%${a.legs.length > 1 ? ' · móntala en MyMatch de Winamax' : ''}</div>
+            <div class="text-[10px] text-slate-400 font-mono">Prob. ${a.legs.length > 1 ? 'de que acierten todas' : 'de acierto'} ${a.prob_combinada}%${a.legs.length > 1 ? ' · móntala como combinada del mismo partido en Winamax' : ''}</div>
             ` : a.es_combinada && a.legs ? `
             <div class="text-sm font-extrabold text-white flex items-center gap-2 flex-wrap">
               <span class="px-1.5 py-0.5 rounded text-[9px] font-extrabold bg-violet-500/20 text-violet-300 border border-violet-500/40">COMBINADA DE PARTIDOS ×${a.legs.length}</span>
@@ -1260,10 +1277,22 @@
                 </div>`).join('')}
             </div>
             ${a.prob_combinada ? `<div class="text-[10px] text-slate-400 font-mono">Prob. de acierto ${a.prob_combinada}% · deben acertar todas</div>` : ''}
-            ` : `
-            <div class="text-sm font-extrabold text-white">
-              ${a.partido} — <span class="text-brand-primary">${a.mercado}</span>
-            </div>`}
+            ` : (() => {
+              const t = tarjetaMercado(a);
+              const icono = a.acertado === true ? '✅' : (a.acertado === false ? '❌' : (a.push ? '➖' : '⏳'));
+              const prob = probAlerta(a);
+              return `
+            <div class="text-sm font-extrabold text-white flex items-center gap-2 flex-wrap">
+              <span class="px-1.5 py-0.5 rounded text-[9px] font-extrabold ${t.cls}">${t.txt}</span>
+              <span class="text-[12px] text-slate-200">${a.partido}</span>
+              ${a.marcador ? `<span class="text-[11px] font-mono text-slate-400">${a.marcador}</span>` : ''}
+            </div>
+            <div class="flex items-center justify-between gap-2 text-[12px]">
+              <span class="text-slate-200 min-w-0">${icono} <strong class="text-brand-primary">${a.mercado}</strong></span>
+              ${prob ? `<span class="font-mono text-slate-400 whitespace-nowrap text-[11px]">${prob}</span>` : ''}
+            </div>
+            ${prob ? `<div class="text-[10px] text-slate-400 font-mono">Prob. de acierto ${prob}</div>` : ''}`;
+            })()}
 
             <div class="flex items-center justify-between pt-1 border-t border-slate-800/80 text-xs font-mono text-slate-300">
               <div class="flex items-center gap-3">

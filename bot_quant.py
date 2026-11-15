@@ -2119,6 +2119,7 @@ def ejecutar_ciclo():
                 "sel": analisis.get("sel"),
                 "cuota_ref": analisis.get("cuota_ref"),
                 "cuota_minima": analisis.get("cuota_minima"),
+                "prob_modelo": analisis.get("prob_modelo"),
                 "cuotas_reales": not analisis.get("solo_modelo"),
                 "solo_modelo": bool(analisis.get("solo_modelo")),
                 "liga": comp_info["name"],

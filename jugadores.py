@@ -452,7 +452,7 @@ def _alerta_base(partido, semana_id, id_alerta, patas, p, cuota_min, titulo):
                   "mercado": texto_pata(pt), "partido": f"{partido['local']} vs {partido['visitante']}",
                   "prob": round(pt["p"] * 100, 1), "media": pt.get("media"), "cuota": round(1.0 / pt["p"], 2),
                   "fecha_hora_display": partido.get("fecha_hora_display"), "res": None, "valor": None} for pt in patas],
-        "casa": "Winamax (MyMatch)" if len(patas) > 1 else None,
+        "casa": "Winamax (combinada)" if len(patas) > 1 else None,
         "cuota": f"@{cuota_min}", "cuota_minima": True,
         "ev": f"+{round((MARGEN_PROPS - 1) * 100, 1)}%",
         "prob_combinada": round(p * 100, 1), "stake": "1/10",
@@ -471,12 +471,12 @@ def mensaje_alerta(a, minutos):
         lineas.append(f"{i}️⃣ <b>{l['mercado']}</b> · prob. {l['prob']}%{extra}")
     es_mm = len(a["legs"]) > 1
     return (
-        f"🎯 <b>{'MYMATCH' if es_mm else 'JUGADOR'} — [PRE-PARTIDO]</b>\n\n"
+        f"🎯 <b>{'COMBINADA' if es_mm else 'JUGADOR'} — [PRE-PARTIDO]</b>\n\n"
         f"🏆 <b>Competición:</b> {a.get('liga')}\n"
         f"🏀 <b>Partido:</b> {a['partido']}\n"
         f"⏰ <b>Inicio:</b> {a.get('fecha_hora_display')} (en {minutos} min)\n\n"
         + "\n".join(lineas) + "\n\n"
-        f"💰 <b>Cuota mínima para tener valor:</b> {a['cuota']}{' (en MyMatch de Winamax)' if es_mm else ''}. "
+        f"💰 <b>Cuota mínima para tener valor:</b> {a['cuota']}{' (combinada del mismo partido en Winamax)' if es_mm else ''}. "
         f"Juégala solo si tu casa paga esa cuota o más.\n"
         f"🎲 <b>Probabilidad {'de que acierten todas' if es_mm else 'de acierto'}:</b> {a['prob_combinada']}%\n"
         f"💡 <b>Stake Sugerido:</b> {a['stake']} unidades\n"
@@ -522,12 +522,12 @@ def generar_alertas(partidos_web, store, resultados, fuerzas_por_liga, alertas, 
         if id_mm not in existentes:
             mm = elegir_mymatch(cands, patas_eq)
             if mm:
-                a = _alerta_base(p, semana_id, id_mm, mm["patas"], mm["p"], mm["cuota_min"], "MyMatch")
+                a = _alerta_base(p, semana_id, id_mm, mm["patas"], mm["p"], mm["cuota_min"], "Combinada")
                 enviar(mensaje_alerta(a, mr), url_accion=app_url, texto_boton="📱 Abrir en Web App")
                 alertas.append(a)
                 existentes.add(id_mm)
                 nuevas += 1
-                print(f"   🧩 MyMatch {a['partido']}: {a['mercado']} @{mm['cuota_min']} (p {round(mm['p'] * 100, 1)}%)")
+                print(f"   🧩 Combinada {a['partido']}: {a['mercado']} @{mm['cuota_min']} (p {round(mm['p'] * 100, 1)}%)")
         if id_s not in existentes:
             usados = {(l.get("jid"), l.get("stat")) for a in alertas if a.get("id_alerta") == id_mm for l in a.get("legs", [])}
             s = elegir_simple([c for c in cands if (c["jid"], c["stat"]) not in usados])
@@ -603,7 +603,7 @@ def liquidar(alertas, store, partidos_map, enviar, app_url):
                 titulo = "➖ <b>Resultado:</b> ANULADA (no jugó)"
             else:
                 titulo = "✅ <b>Resultado:</b> ACERTADA" if a["acertado"] else "❌ <b>Resultado:</b> PERDIDA"
-            enviar(f"🎯 <b>{a.get('titulo', 'MyMatch').upper()}</b> — {a['partido']} ({a.get('marcador_final') or ''})\n{det}\n\n{titulo}\n"
+            enviar(f"🎯 <b>{('Combinada' if a.get('titulo') in (None, 'MyMatch') else a.get('titulo')).upper()}</b> — {a['partido']} ({a.get('marcador_final') or ''})\n{det}\n\n{titulo}\n"
                    f"💰 <b>Cuota mínima:</b> {a['cuota']} • 💡 <b>Stake:</b> {a['stake']}\n\n⚡ <i>Apex Quant Engine</i>",
                    url_accion=app_url, texto_boton="📱 Ver en la Web App")
             a["liquidada_telegram"] = True
