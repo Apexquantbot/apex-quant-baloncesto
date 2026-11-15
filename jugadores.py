@@ -392,7 +392,7 @@ def texto_pata(pt, partido=None):
 
 def elegir_mymatch(cands, patas_equipo):
     """Mejor MyMatch de 2-3 selecciones del mismo partido. Por jugador: su línea más alta con prob >= 78%
-    en cada estadística; no se mezcla P+R+A con sus propias partes; máximo 2 selecciones por jugador."""
+    en cada estadística; P+R+A nunca se mezcla con estadísticas sueltas (regla de Winamax); máximo 2 selecciones por jugador."""
     seguras = {}
     for c in cands:
         if c["p"] >= PATA_PROB_MIN:
@@ -409,7 +409,10 @@ def elegir_mymatch(cands, patas_equipo):
                 por_j.setdefault(c["jid"], []).append(c["stat"])
             if any(len(v) > 2 for v in por_j.values()):
                 continue
-            if any("pra" in v and len(v) > 1 for v in por_j.values()):
+            # Winamax no deja mezclar P+R+A con puntos/rebotes/asistencias/triples sueltos en la misma
+            # combinada (de ningún jugador): o todas las selecciones de jugador son P+R+A o ninguna
+            stats = [c["stat"] for c in jugs]
+            if "pra" in stats and any(st != "pra" for st in stats):
                 continue
             if sum(1 for c in combo if c["t"] == "ML") > 1:
                 continue
