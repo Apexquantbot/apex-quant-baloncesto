@@ -1,7 +1,7 @@
 {
   "version_bot": "1.1",
-  "ultima_actualizacion": "00:45",
-  "ultima_actualizacion_utc": "2026-11-15T23:45:35Z",
+  "ultima_actualizacion": "01:01",
+  "ultima_actualizacion_utc": "2026-11-16T00:01:11Z",
   "huso_horario": "Europe/Madrid",
   "semana_activa": "2026-W47",
   "lunes_semana": "2026-11-16",
@@ -35,12 +35,12 @@
       "hora_utc": "2026-11-15T23:00:00Z",
       "utcDate": "2026-11-15T23:00:00Z",
       "timestamp_ms": 1794783600000,
-      "minutos_restantes": -46,
-      "estado": "IN_PLAY",
-      "minuto_juego": "6:35 - 2nd",
-      "marcador": "56 - 23",
-      "goles_local": 56,
-      "goles_visitante": 23,
+      "minutos_restantes": -61,
+      "estado": "HT",
+      "minuto_juego": "Descanso",
+      "marcador": "67 - 37",
+      "goles_local": 67,
+      "goles_visitante": 37,
       "mercado": null,
       "tipo_mercado": null,
       "categoria_visual": null,
@@ -110,12 +110,12 @@
       "hora_utc": "2026-11-15T23:00:00Z",
       "utcDate": "2026-11-15T23:00:00Z",
       "timestamp_ms": 1794783600000,
-      "minutos_restantes": -46,
+      "minutos_restantes": -61,
       "estado": "IN_PLAY",
-      "minuto_juego": "9:53 - 2nd",
-      "marcador": "21 - 26",
-      "goles_local": 21,
-      "goles_visitante": 26,
+      "minuto_juego": "4:27 - 2nd",
+      "marcador": "38 - 37",
+      "goles_local": 38,
+      "goles_visitante": 37,
       "mercado": null,
       "tipo_mercado": null,
       "categoria_visual": null,
@@ -185,7 +185,7 @@
       "hora_utc": "2026-11-16T00:00:00Z",
       "utcDate": "2026-11-16T00:00:00Z",
       "timestamp_ms": 1794787200000,
-      "minutos_restantes": 14,
+      "minutos_restantes": -1,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -239,8 +239,8 @@
         "pts_visitante": 116.6,
         "margen": -9.9,
         "total": 223.2,
-        "prob_local": 22.5,
-        "prob_visitante": 77.5
+        "prob_local": 23.4,
+        "prob_visitante": 76.6
       }
     },
     {
@@ -260,7 +260,7 @@
       "hora_utc": "2026-11-16T01:00:00Z",
       "utcDate": "2026-11-16T01:00:00Z",
       "timestamp_ms": 1794790800000,
-      "minutos_restantes": 74,
+      "minutos_restantes": 59,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -312,10 +312,10 @@
       "prevision": {
         "pts_local": 113.0,
         "pts_visitante": 119.6,
-        "margen": -6.7,
+        "margen": -6.6,
         "total": 232.6,
-        "prob_local": 31.3,
-        "prob_visitante": 68.7
+        "prob_local": 31.6,
+        "prob_visitante": 68.4
       }
     },
     {
@@ -335,7 +335,7 @@
       "hora_utc": "2026-11-16T02:00:00Z",
       "utcDate": "2026-11-16T02:00:00Z",
       "timestamp_ms": 1794794400000,
-      "minutos_restantes": 134,
+      "minutos_restantes": 119,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -386,11 +386,11 @@
       },
       "prevision": {
         "pts_local": 105.4,
-        "pts_visitante": 113.7,
+        "pts_visitante": 113.6,
         "margen": -8.3,
-        "total": 219.1,
-        "prob_local": 26.7,
-        "prob_visitante": 73.3
+        "total": 219.0,
+        "prob_local": 26.5,
+        "prob_visitante": 73.5
       }
     },
     {
@@ -410,7 +410,7 @@
       "hora_utc": "2026-11-17T00:00:00Z",
       "utcDate": "2026-11-17T00:00:00Z",
       "timestamp_ms": 1794873600000,
-      "minutos_restantes": 1454,
+      "minutos_restantes": 1439,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -463,9 +463,9 @@
         "pts_local": 114.6,
         "pts_visitante": 103.9,
         "margen": 10.7,
-        "total": 218.6,
-        "prob_local": 78.3,
-        "prob_visitante": 21.7
+        "total": 218.5,
+        "prob_local": 78.8,
+        "prob_visitante": 21.2
       }
     },
     {
@@ -485,7 +485,7 @@
       "hora_utc": "2026-11-17T00:00:00Z",
       "utcDate": "2026-11-17T00:00:00Z",
       "timestamp_ms": 1794873600000,
-      "minutos_restantes": 1454,
+      "minutos_restantes": 1439,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -536,11 +536,11 @@
       },
       "prevision": {
         "pts_local": 125.8,
-        "pts_visitante": 118.9,
+        "pts_visitante": 118.8,
         "margen": 7.0,
         "total": 244.7,
-        "prob_local": 69.2,
-        "prob_visitante": 30.8
+        "prob_local": 70.3,
+        "prob_visitante": 29.7
       }
     },
     {
@@ -560,7 +560,7 @@
       "hora_utc": "2026-11-17T00:00:00Z",
       "utcDate": "2026-11-17T00:00:00Z",
       "timestamp_ms": 1794873600000,
-      "minutos_restantes": 1454,
+      "minutos_restantes": 1439,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -611,11 +611,11 @@
       },
       "prevision": {
         "pts_local": 111.0,
-        "pts_visitante": 118.4,
+        "pts_visitante": 118.3,
         "margen": -7.3,
         "total": 229.4,
-        "prob_local": 29.8,
-        "prob_visitante": 70.2
+        "prob_local": 29.4,
+        "prob_visitante": 70.6
       }
     },
     {
@@ -635,7 +635,7 @@
       "hora_utc": "2026-11-17T00:30:00Z",
       "utcDate": "2026-11-17T00:30:00Z",
       "timestamp_ms": 1794875400000,
-      "minutos_restantes": 1484,
+      "minutos_restantes": 1469,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -689,8 +689,8 @@
         "pts_visitante": 114.5,
         "margen": -2.5,
         "total": 226.5,
-        "prob_local": 42.3,
-        "prob_visitante": 57.7
+        "prob_local": 42.7,
+        "prob_visitante": 57.3
       }
     },
     {
@@ -710,7 +710,7 @@
       "hora_utc": "2026-11-17T00:30:00Z",
       "utcDate": "2026-11-17T00:30:00Z",
       "timestamp_ms": 1794875400000,
-      "minutos_restantes": 1484,
+      "minutos_restantes": 1469,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -761,11 +761,11 @@
       },
       "prevision": {
         "pts_local": 113.4,
-        "pts_visitante": 119.4,
+        "pts_visitante": 119.3,
         "margen": -6.0,
         "total": 232.7,
-        "prob_local": 33.4,
-        "prob_visitante": 66.6
+        "prob_local": 32.3,
+        "prob_visitante": 67.7
       }
     },
     {
@@ -785,7 +785,7 @@
       "hora_utc": "2026-11-17T01:00:00Z",
       "utcDate": "2026-11-17T01:00:00Z",
       "timestamp_ms": 1794877200000,
-      "minutos_restantes": 1514,
+      "minutos_restantes": 1499,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -839,8 +839,8 @@
         "pts_visitante": 112.8,
         "margen": 2.8,
         "total": 228.3,
-        "prob_local": 58.9,
-        "prob_visitante": 41.1
+        "prob_local": 57.8,
+        "prob_visitante": 42.2
       }
     },
     {
@@ -860,7 +860,7 @@
       "hora_utc": "2026-11-17T01:00:00Z",
       "utcDate": "2026-11-17T01:00:00Z",
       "timestamp_ms": 1794877200000,
-      "minutos_restantes": 1514,
+      "minutos_restantes": 1499,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -911,11 +911,11 @@
       },
       "prevision": {
         "pts_local": 113.1,
-        "pts_visitante": 122.9,
+        "pts_visitante": 122.8,
         "margen": -9.7,
         "total": 236.0,
-        "prob_local": 23.5,
-        "prob_visitante": 76.5
+        "prob_local": 23.8,
+        "prob_visitante": 76.2
       }
     },
     {
@@ -935,7 +935,7 @@
       "hora_utc": "2026-11-17T02:00:00Z",
       "utcDate": "2026-11-17T02:00:00Z",
       "timestamp_ms": 1794880800000,
-      "minutos_restantes": 1574,
+      "minutos_restantes": 1559,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -986,11 +986,11 @@
       },
       "prevision": {
         "pts_local": 117.7,
-        "pts_visitante": 110.9,
-        "margen": 6.8,
+        "pts_visitante": 110.8,
+        "margen": 6.9,
         "total": 228.5,
-        "prob_local": 69.7,
-        "prob_visitante": 30.3
+        "prob_local": 70.3,
+        "prob_visitante": 29.7
       }
     },
     {
@@ -1010,7 +1010,7 @@
       "hora_utc": "2026-11-18T00:30:00Z",
       "utcDate": "2026-11-18T00:30:00Z",
       "timestamp_ms": 1794961800000,
-      "minutos_restantes": 2924,
+      "minutos_restantes": 2909,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -1064,8 +1064,8 @@
         "pts_visitante": 109.8,
         "margen": -0.3,
         "total": 219.3,
-        "prob_local": 50.0,
-        "prob_visitante": 50.0
+        "prob_local": 49.4,
+        "prob_visitante": 50.6
       }
     },
     {
@@ -1085,7 +1085,7 @@
       "hora_utc": "2026-11-18T01:00:00Z",
       "utcDate": "2026-11-18T01:00:00Z",
       "timestamp_ms": 1794963600000,
-      "minutos_restantes": 2954,
+      "minutos_restantes": 2939,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -1139,8 +1139,8 @@
         "pts_visitante": 112.8,
         "margen": 2.8,
         "total": 228.3,
-        "prob_local": 58.9,
-        "prob_visitante": 41.1
+        "prob_local": 57.8,
+        "prob_visitante": 42.2
       }
     },
     {
@@ -1160,7 +1160,7 @@
       "hora_utc": "2026-11-18T01:00:00Z",
       "utcDate": "2026-11-18T01:00:00Z",
       "timestamp_ms": 1794963600000,
-      "minutos_restantes": 2954,
+      "minutos_restantes": 2939,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -1214,8 +1214,8 @@
         "pts_visitante": 109.6,
         "margen": 9.3,
         "total": 228.5,
-        "prob_local": 75.7,
-        "prob_visitante": 24.3
+        "prob_local": 75.9,
+        "prob_visitante": 24.1
       }
     },
     {
@@ -1235,7 +1235,7 @@
       "hora_utc": "2026-11-18T03:30:00Z",
       "utcDate": "2026-11-18T03:30:00Z",
       "timestamp_ms": 1794972600000,
-      "minutos_restantes": 3104,
+      "minutos_restantes": 3089,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -1275,22 +1275,22 @@
       "acertado": null,
       "form_info": {
         "ajuste_prob": 0.0,
-        "racha_local": "L-L-W-L-W",
+        "racha_local": "L-W-L-W-W",
         "racha_visitante": "L-L-L-L-L",
-        "tendencia": "⚖️ Ligera Ventaja Local",
-        "resumen": "Local: L-L-W-L-W (2V) vs Vis: L-L-L-L-L (0V)",
-        "diferencia_forma": 2,
+        "tendencia": "🔥 Racha Favorable Local (+Dinámica)",
+        "resumen": "Local: L-W-L-W-W (3V) vs Vis: L-L-L-L-L (0V)",
+        "diferencia_forma": 3,
         "es_club_top_local": false,
         "es_club_top_vis": false,
         "real": true
       },
       "prevision": {
-        "pts_local": 115.7,
+        "pts_local": 115.8,
         "pts_visitante": 111.1,
-        "margen": 4.6,
-        "total": 226.7,
-        "prob_local": 63.0,
-        "prob_visitante": 37.0
+        "margen": 4.7,
+        "total": 226.9,
+        "prob_local": 63.9,
+        "prob_visitante": 36.1
       }
     },
     {
@@ -1310,7 +1310,7 @@
       "hora_utc": "2026-11-18T04:00:00Z",
       "utcDate": "2026-11-18T04:00:00Z",
       "timestamp_ms": 1794974400000,
-      "minutos_restantes": 3134,
+      "minutos_restantes": 3119,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -1351,21 +1351,21 @@
       "form_info": {
         "ajuste_prob": 0.0,
         "racha_local": "W-W-W-W-W",
-        "racha_visitante": "L-L-L-W-L",
+        "racha_visitante": "L-L-W-L-L",
         "tendencia": "🔥 Racha Favorable Local (+Dinámica)",
-        "resumen": "Local: W-W-W-W-W (5V) vs Vis: L-L-L-W-L (1V)",
+        "resumen": "Local: W-W-W-W-W (5V) vs Vis: L-L-W-L-L (1V)",
         "diferencia_forma": 4,
         "es_club_top_local": false,
         "es_club_top_vis": false,
         "real": true
       },
       "prevision": {
-        "pts_local": 117.2,
-        "pts_visitante": 102.4,
-        "margen": 14.7,
-        "total": 219.6,
-        "prob_local": 86.3,
-        "prob_visitante": 13.7
+        "pts_local": 117.3,
+        "pts_visitante": 102.5,
+        "margen": 14.8,
+        "total": 219.7,
+        "prob_local": 86.2,
+        "prob_visitante": 13.8
       }
     },
     {
@@ -1385,7 +1385,7 @@
       "hora_utc": "2026-11-19T00:00:00Z",
       "utcDate": "2026-11-19T00:00:00Z",
       "timestamp_ms": 1795046400000,
-      "minutos_restantes": 4334,
+      "minutos_restantes": 4319,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -1436,11 +1436,11 @@
       },
       "prevision": {
         "pts_local": 117.8,
-        "pts_visitante": 119.3,
+        "pts_visitante": 119.2,
         "margen": -1.5,
         "total": 237.0,
-        "prob_local": 46.6,
-        "prob_visitante": 53.4
+        "prob_local": 44.4,
+        "prob_visitante": 55.6
       }
     },
     {
@@ -1460,7 +1460,7 @@
       "hora_utc": "2026-11-19T00:00:00Z",
       "utcDate": "2026-11-19T00:00:00Z",
       "timestamp_ms": 1795046400000,
-      "minutos_restantes": 4334,
+      "minutos_restantes": 4319,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -1514,8 +1514,8 @@
         "pts_visitante": 116.1,
         "margen": -7.6,
         "total": 224.6,
-        "prob_local": 29.2,
-        "prob_visitante": 70.8
+        "prob_local": 28.4,
+        "prob_visitante": 71.6
       }
     },
     {
@@ -1535,7 +1535,7 @@
       "hora_utc": "2026-11-19T00:00:00Z",
       "utcDate": "2026-11-19T00:00:00Z",
       "timestamp_ms": 1795046400000,
-      "minutos_restantes": 4334,
+      "minutos_restantes": 4319,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -1589,8 +1589,8 @@
         "pts_visitante": 113.3,
         "margen": 9.2,
         "total": 235.8,
-        "prob_local": 75.6,
-        "prob_visitante": 24.4
+        "prob_local": 75.4,
+        "prob_visitante": 24.6
       }
     },
     {
@@ -1610,7 +1610,7 @@
       "hora_utc": "2026-11-19T00:00:00Z",
       "utcDate": "2026-11-19T00:00:00Z",
       "timestamp_ms": 1795046400000,
-      "minutos_restantes": 4334,
+      "minutos_restantes": 4319,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -1663,9 +1663,9 @@
         "pts_local": 111.3,
         "pts_visitante": 111.7,
         "margen": -0.4,
-        "total": 223.0,
-        "prob_local": 48.8,
-        "prob_visitante": 51.2
+        "total": 222.9,
+        "prob_local": 49.4,
+        "prob_visitante": 50.6
       }
     },
     {
@@ -1685,7 +1685,7 @@
       "hora_utc": "2026-11-19T00:30:00Z",
       "utcDate": "2026-11-19T00:30:00Z",
       "timestamp_ms": 1795048200000,
-      "minutos_restantes": 4364,
+      "minutos_restantes": 4349,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -1736,11 +1736,11 @@
       },
       "prevision": {
         "pts_local": 120.5,
-        "pts_visitante": 118.4,
-        "margen": 2.1,
-        "total": 238.9,
-        "prob_local": 56.2,
-        "prob_visitante": 43.8
+        "pts_visitante": 118.3,
+        "margen": 2.2,
+        "total": 238.8,
+        "prob_local": 56.1,
+        "prob_visitante": 43.9
       }
     },
     {
@@ -1760,7 +1760,7 @@
       "hora_utc": "2026-11-19T00:30:00Z",
       "utcDate": "2026-11-19T00:30:00Z",
       "timestamp_ms": 1795048200000,
-      "minutos_restantes": 4364,
+      "minutos_restantes": 4349,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -1812,10 +1812,10 @@
       "prevision": {
         "pts_local": 117.9,
         "pts_visitante": 109.9,
-        "margen": 7.9,
+        "margen": 8.0,
         "total": 227.8,
-        "prob_local": 72.3,
-        "prob_visitante": 27.7
+        "prob_local": 72.2,
+        "prob_visitante": 27.8
       }
     },
     {
@@ -1835,7 +1835,7 @@
       "hora_utc": "2026-11-19T01:00:00Z",
       "utcDate": "2026-11-19T01:00:00Z",
       "timestamp_ms": 1795050000000,
-      "minutos_restantes": 4394,
+      "minutos_restantes": 4379,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -1885,10 +1885,10 @@
         "real": true
       },
       "prevision": {
-        "pts_local": 115.4,
+        "pts_local": 115.3,
         "pts_visitante": 123.1,
-        "margen": -7.8,
-        "total": 238.5,
+        "margen": -7.7,
+        "total": 238.4,
         "prob_local": 28.2,
         "prob_visitante": 71.8
       }
@@ -1910,7 +1910,7 @@
       "hora_utc": "2026-11-19T01:00:00Z",
       "utcDate": "2026-11-19T01:00:00Z",
       "timestamp_ms": 1795050000000,
-      "minutos_restantes": 4394,
+      "minutos_restantes": 4379,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -1962,10 +1962,10 @@
       "prevision": {
         "pts_local": 114.9,
         "pts_visitante": 110.2,
-        "margen": 4.6,
+        "margen": 4.7,
         "total": 225.1,
-        "prob_local": 62.8,
-        "prob_visitante": 37.2
+        "prob_local": 64.0,
+        "prob_visitante": 36.0
       }
     },
     {
@@ -1985,7 +1985,7 @@
       "hora_utc": "2026-11-19T01:00:00Z",
       "utcDate": "2026-11-19T01:00:00Z",
       "timestamp_ms": 1795050000000,
-      "minutos_restantes": 4394,
+      "minutos_restantes": 4379,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -2039,8 +2039,8 @@
         "pts_visitante": 115.3,
         "margen": -2.5,
         "total": 228.1,
-        "prob_local": 43.4,
-        "prob_visitante": 56.6
+        "prob_local": 42.6,
+        "prob_visitante": 57.4
       }
     },
     {
@@ -2060,7 +2060,7 @@
       "hora_utc": "2026-11-19T02:30:00Z",
       "utcDate": "2026-11-19T02:30:00Z",
       "timestamp_ms": 1795055400000,
-      "minutos_restantes": 4484,
+      "minutos_restantes": 4469,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -2111,11 +2111,11 @@
       },
       "prevision": {
         "pts_local": 109.0,
-        "pts_visitante": 110.9,
+        "pts_visitante": 110.8,
         "margen": -1.9,
         "total": 219.8,
-        "prob_local": 44.8,
-        "prob_visitante": 55.2
+        "prob_local": 44.4,
+        "prob_visitante": 55.6
       }
     },
     {
@@ -2135,7 +2135,7 @@
       "hora_utc": "2026-11-19T03:00:00Z",
       "utcDate": "2026-11-19T03:00:00Z",
       "timestamp_ms": 1795057200000,
-      "minutos_restantes": 4514,
+      "minutos_restantes": 4499,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -2186,11 +2186,11 @@
       },
       "prevision": {
         "pts_local": 121.8,
-        "pts_visitante": 109.4,
+        "pts_visitante": 109.3,
         "margen": 12.4,
         "total": 231.1,
-        "prob_local": 81.7,
-        "prob_visitante": 18.3
+        "prob_local": 81.8,
+        "prob_visitante": 18.2
       }
     },
     {
@@ -2210,7 +2210,7 @@
       "hora_utc": "2026-11-19T03:00:00Z",
       "utcDate": "2026-11-19T03:00:00Z",
       "timestamp_ms": 1795057200000,
-      "minutos_restantes": 4514,
+      "minutos_restantes": 4499,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -2261,11 +2261,11 @@
       },
       "prevision": {
         "pts_local": 113.1,
-        "pts_visitante": 116.2,
+        "pts_visitante": 116.1,
         "margen": -3.1,
         "total": 229.2,
-        "prob_local": 41.1,
-        "prob_visitante": 58.9
+        "prob_local": 40.3,
+        "prob_visitante": 59.7
       }
     },
     {
@@ -2285,7 +2285,7 @@
       "hora_utc": "2026-11-18T17:00:00Z",
       "utcDate": "2026-11-18T17:00:00Z",
       "timestamp_ms": 1795021200000,
-      "minutos_restantes": 3914,
+      "minutos_restantes": 3899,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -2360,7 +2360,7 @@
       "hora_utc": "2026-11-17T20:00:00Z",
       "utcDate": "2026-11-17T20:00:00Z",
       "timestamp_ms": 1794945600000,
-      "minutos_restantes": 2654,
+      "minutos_restantes": 2639,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -2435,7 +2435,7 @@
       "hora_utc": "2026-11-17T19:45:00Z",
       "utcDate": "2026-11-17T19:45:00Z",
       "timestamp_ms": 1794944700000,
-      "minutos_restantes": 2639,
+      "minutos_restantes": 2624,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -2510,7 +2510,7 @@
       "hora_utc": "2026-11-17T19:30:00Z",
       "utcDate": "2026-11-17T19:30:00Z",
       "timestamp_ms": 1794943800000,
-      "minutos_restantes": 2624,
+      "minutos_restantes": 2609,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -2585,7 +2585,7 @@
       "hora_utc": "2026-11-17T19:30:00Z",
       "utcDate": "2026-11-17T19:30:00Z",
       "timestamp_ms": 1794943800000,
-      "minutos_restantes": 2624,
+      "minutos_restantes": 2609,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -2660,7 +2660,7 @@
       "hora_utc": "2026-11-17T19:30:00Z",
       "utcDate": "2026-11-17T19:30:00Z",
       "timestamp_ms": 1794943800000,
-      "minutos_restantes": 2624,
+      "minutos_restantes": 2609,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -2735,7 +2735,7 @@
       "hora_utc": "2026-11-17T18:00:00Z",
       "utcDate": "2026-11-17T18:00:00Z",
       "timestamp_ms": 1794938400000,
-      "minutos_restantes": 2534,
+      "minutos_restantes": 2519,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -2810,7 +2810,7 @@
       "hora_utc": "2026-11-17T18:00:00Z",
       "utcDate": "2026-11-17T18:00:00Z",
       "timestamp_ms": 1794938400000,
-      "minutos_restantes": 2534,
+      "minutos_restantes": 2519,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -2885,7 +2885,7 @@
       "hora_utc": "2026-11-17T17:00:00Z",
       "utcDate": "2026-11-17T17:00:00Z",
       "timestamp_ms": 1794934800000,
-      "minutos_restantes": 2474,
+      "minutos_restantes": 2459,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -2960,7 +2960,7 @@
       "hora_utc": "2026-11-17T16:00:00Z",
       "utcDate": "2026-11-17T16:00:00Z",
       "timestamp_ms": 1794931200000,
-      "minutos_restantes": 2414,
+      "minutos_restantes": 2399,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -3035,7 +3035,7 @@
       "hora_utc": "2026-11-17T17:30:00Z",
       "utcDate": "2026-11-17T17:30:00Z",
       "timestamp_ms": 1794936600000,
-      "minutos_restantes": 2504,
+      "minutos_restantes": 2489,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -3103,7 +3103,7 @@
       "hora_utc": "2026-11-17T18:00:00Z",
       "utcDate": "2026-11-17T18:00:00Z",
       "timestamp_ms": 1794938400000,
-      "minutos_restantes": 2534,
+      "minutos_restantes": 2519,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -3171,7 +3171,7 @@
       "hora_utc": "2026-11-17T19:30:00Z",
       "utcDate": "2026-11-17T19:30:00Z",
       "timestamp_ms": 1794943800000,
-      "minutos_restantes": 2624,
+      "minutos_restantes": 2609,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -3239,7 +3239,7 @@
       "hora_utc": "2026-11-18T19:30:00Z",
       "utcDate": "2026-11-18T19:30:00Z",
       "timestamp_ms": 1795030200000,
-      "minutos_restantes": 4064,
+      "minutos_restantes": 4049,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -3307,7 +3307,7 @@
       "hora_utc": "2026-11-18T17:00:00Z",
       "utcDate": "2026-11-18T17:00:00Z",
       "timestamp_ms": 1795021200000,
-      "minutos_restantes": 3914,
+      "minutos_restantes": 3899,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -3375,7 +3375,7 @@
       "hora_utc": "2026-11-18T17:00:00Z",
       "utcDate": "2026-11-18T17:00:00Z",
       "timestamp_ms": 1795021200000,
-      "minutos_restantes": 3914,
+      "minutos_restantes": 3899,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -3434,7 +3434,7 @@
     "restante_inicio": 464.0
   },
   "formas_equipos": {
-    "t": "2026-11-15T23:45:35Z",
+    "t": "2026-11-16T00:01:11Z",
     "e": {
       "nba18": "W-W-W-L-L",
       "nba28": "L-W-L-L-L",
@@ -3452,7 +3452,7 @@
       "nba24": "W-W-W-W-W",
       "nba23": "L-L-L-L-L",
       "nba29": "L-W-L-W-W",
-      "nba30": "L-L-L-W-L",
+      "nba30": "L-L-W-L-L",
       "nba3": "L-L-L-L-L",
       "nba27": "L-L-L-L-L",
       "nba4": "L-L-L-W-W",
@@ -3464,7 +3464,7 @@
       "nba13": "W-W-W-W-W",
       "nba7": "W-W-L-W-W",
       "nba17": "W-L-L-W-L",
-      "nba12": "L-L-W-L-W",
+      "nba12": "L-W-L-W-W",
       "nba5": "L-L-W-L-W",
       "elHTA": "W-W-L-L-L",
       "elMUN": "L-L-L-W-L",
@@ -3623,7 +3623,7 @@
       ]
     },
     "resultados_por_liga": {
-      "NBA": 204,
+      "NBA": 205,
       "EL": 110,
       "BCL": 36,
       "ACB": 40
@@ -4795,12 +4795,15 @@
       "semana_id": "2026-W46",
       "es_ht": false,
       "es_semana_actual": false,
-      "estado_partido": "IN_PLAY",
-      "marcador": "108 - 92",
-      "marcador_final": null,
-      "finalizado": false,
-      "acertado": null,
-      "liquidada_telegram": false
+      "estado_partido": "FINISHED",
+      "marcador": "113 - 105",
+      "marcador_final": "113 - 105",
+      "finalizado": true,
+      "acertado": true,
+      "liquidada_telegram": true,
+      "goles_local": 113,
+      "goles_visitante": 105,
+      "push": false
     },
     {
       "id_partido": "nba401909987",
@@ -4826,8 +4829,8 @@
           "media": 29.1,
           "cuota": 1.37,
           "fecha_hora_display": "15/11 • 22:30",
-          "res": null,
-          "valor": null
+          "res": true,
+          "valor": 40
         }
       ],
       "casa": null,
@@ -4844,12 +4847,12 @@
       "semana_id": "2026-W46",
       "es_ht": false,
       "es_semana_actual": false,
-      "estado_partido": "IN_PLAY",
-      "marcador": "108 - 92",
-      "marcador_final": null,
-      "finalizado": false,
-      "acertado": null,
-      "liquidada_telegram": false,
+      "estado_partido": "FINISHED",
+      "marcador": "113 - 105",
+      "marcador_final": "113 - 105",
+      "finalizado": true,
+      "acertado": true,
+      "liquidada_telegram": true,
       "cuotas_reales": false,
       "solo_modelo": true
     },
@@ -4930,7 +4933,7 @@
       "es_ht": false,
       "es_semana_actual": false,
       "estado_partido": "IN_PLAY",
-      "marcador": "81 - 81",
+      "marcador": "96 - 92",
       "marcador_final": null,
       "finalizado": false,
       "acertado": null,
@@ -4981,7 +4984,7 @@
       "es_ht": false,
       "es_semana_actual": false,
       "estado_partido": "IN_PLAY",
-      "marcador": "81 - 81",
+      "marcador": "96 - 92",
       "marcador_final": null,
       "finalizado": false,
       "acertado": null,
@@ -5024,8 +5027,8 @@
       "semana_id": "2026-W46",
       "es_ht": false,
       "es_semana_actual": false,
-      "estado_partido": "IN_PLAY",
-      "marcador": "56 - 23",
+      "estado_partido": "HT",
+      "marcador": "67 - 37",
       "marcador_final": null,
       "finalizado": false,
       "acertado": null,
@@ -5066,7 +5069,7 @@
       "es_ht": false,
       "es_semana_actual": false,
       "estado_partido": "IN_PLAY",
-      "marcador": "21 - 26",
+      "marcador": "38 - 37",
       "marcador_final": null,
       "finalizado": false,
       "acertado": null,
@@ -5148,8 +5151,8 @@
       "semana_id": "2026-W46",
       "es_ht": false,
       "es_semana_actual": false,
-      "estado_partido": "IN_PLAY",
-      "marcador": "56 - 23",
+      "estado_partido": "HT",
+      "marcador": "67 - 37",
       "marcador_final": null,
       "finalizado": false,
       "acertado": null,
@@ -5199,8 +5202,8 @@
       "semana_id": "2026-W46",
       "es_ht": false,
       "es_semana_actual": false,
-      "estado_partido": "IN_PLAY",
-      "marcador": "56 - 23",
+      "estado_partido": "HT",
+      "marcador": "67 - 37",
       "marcador_final": null,
       "finalizado": false,
       "acertado": null,
@@ -5285,7 +5288,7 @@
       "es_ht": false,
       "es_semana_actual": false,
       "estado_partido": "IN_PLAY",
-      "marcador": "21 - 26",
+      "marcador": "38 - 37",
       "marcador_final": null,
       "finalizado": false,
       "acertado": null,
@@ -5336,7 +5339,7 @@
       "es_ht": false,
       "es_semana_actual": false,
       "estado_partido": "IN_PLAY",
-      "marcador": "21 - 26",
+      "marcador": "38 - 37",
       "marcador_final": null,
       "finalizado": false,
       "acertado": null,
