@@ -1,8 +1,8 @@
 {
   "id": "/apex-quant-baloncesto/",
-  "name": "Apex Quant Baloncesto",
+  "name": "Apex Quant Basket",
   "short_name": "ApexBasket",
-  "description": "Pronósticos cuantitativos +EV de baloncesto: NBA, Euroliga, ACB y Champions League",
+  "description": "Pronósticos cuantitativos +EV de basket: NBA, Euroliga, ACB y Champions League",
   "lang": "es",
   "start_url": "./index.html",
   "scope": "./",

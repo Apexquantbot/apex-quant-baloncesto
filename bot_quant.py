@@ -15,7 +15,7 @@ from zoneinfo import ZoneInfo
 VERSION = "1.1"
 
 # ==============================================================================
-# APEX QUANT BALONCESTO
+# APEX QUANT BASKET
 # Misma arquitectura que Apex Quant fútbol: calendario + resultados gratuitos,
 # cuotas reales (The Odds API) frente al consenso del mercado y modelo estadístico
 # propio. Ligas: NBA, Euroliga, Liga Endesa (ACB) y Basketball Champions League.
@@ -303,7 +303,7 @@ def ev_y_stake(cuota, prob, push=0.0):
 
 
 # ==============================================================================
-# MODELO ESTADÍSTICO PROPIO DE BALONCESTO
+# MODELO ESTADÍSTICO PROPIO DE BASKET
 # Rating ofensivo y defensivo de cada equipo (puntos a favor y en contra ajustados
 # por rival y por campo, con más peso a los partidos recientes) -> puntos esperados
 # de cada equipo -> simulación de 12.000 partidos (distribución normal con la
@@ -938,7 +938,7 @@ def normalizar_texto(texto):
 #      "homeTeam": {"id", "name", "crest"}, "awayTeam": {...}, "score": {"fullTime": {"home", "away"}}}
 # status: TIMED | IN_PLAY | HT | FINISHED | POSTPONED | CANCELLED
 # ==============================================================================
-HTTP_HEADERS = {"User-Agent": "Mozilla/5.0 (ApexQuantBaloncesto; +https://apexquantbot.github.io/apex-quant-baloncesto/)",
+HTTP_HEADERS = {"User-Agent": "Mozilla/5.0 (ApexQuantBasket; +https://apexquantbot.github.io/apex-quant-baloncesto/)",
                 "Accept": "application/json"}
 DIAG_FUENTES = {"espn_ok": 0, "espn_error": 0, "tsdb_ok": 0, "tsdb_error": 0, "tsdb_vacias": 0, "por_liga": {},
                 "tsdb_cortado": False, "muestras": []}
@@ -1830,7 +1830,7 @@ def ejecutar_ciclo():
 
     lunes_semana_str, domingo_semana_str = obtener_fechas_limite_semana(ahora_madrid)
 
-    print(f"[{hora_madrid_str}] Iniciando ciclo Apex Quant Baloncesto v{VERSION} (Semana {semana_actual_id}: {lunes_semana_str} al {domingo_semana_str})...")
+    print(f"[{hora_madrid_str}] Iniciando ciclo Apex Quant Basket v{VERSION} (Semana {semana_actual_id}: {lunes_semana_str} al {domingo_semana_str})...")
 
     # Comprobación de la clave de The Odds API (el endpoint /sports no consume créditos) y lectura de créditos restantes
     estado_api_cuotas = "sin_clave"
@@ -1857,10 +1857,10 @@ def ejecutar_ciclo():
     telegram_ok = bool(datos_previos.get("telegram_ok"))
     if not telegram_ok and TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID:
         telegram_ok = enviar_telegram(
-            "🏀 <b>APEX QUANT BALONCESTO</b> ya está en marcha.\n\n"
+            "🏀 <b>APEX QUANT BASKET</b> ya está en marcha.\n\n"
             "Aquí recibirás las alertas con valor (+EV) de la <b>NBA</b>, la <b>Euroliga</b>, la <b>Liga Endesa (ACB)</b> "
             "y la <b>Basketball Champions League</b>, unos 15-90 minutos antes de cada partido, con su resultado al terminar "
-            "y un resumen semanal.", None, "📱 Abrir Apex Quant Baloncesto")
+            "y un resumen semanal.", None, "📱 Abrir Apex Quant Basket")
         print(f"📨 Mensaje de bienvenida a Telegram: {'enviado ✅' if telegram_ok else 'FALLO ❌'}")
     resumen_mensual_enviado = datos_previos.get("resumen_mensual_enviado_para", "")
 
@@ -1941,7 +1941,7 @@ def ejecutar_ciclo():
 
         score_data = p.get("score", {})
         full_time = score_data.get("fullTime", {})
-        half_time = {}   # en baloncesto no se usa el marcador al descanso
+        half_time = {}   # en basket no se usa el marcador al descanso
 
         goles_local = full_time.get("home")        # puntos del local (se mantiene el nombre de campo de la app)
         goles_visitante = full_time.get("away")    # puntos del visitante
@@ -2347,7 +2347,7 @@ def ejecutar_ciclo():
         if pendientes:
             pie += f"⏳ <i>{pendientes} pronóstico(s) aún sin resultado: se enviará un cierre actualizado cuando terminen.</i>\n"
         msg = (
-            f"📊 <b>{titulo} — APEX QUANT BALONCESTO</b> 🏆\n\n"
+            f"📊 <b>{titulo} — APEX QUANT BASKET</b> 🏆\n\n"
             f"📅 <b>Semana:</b> {sem} (Finalizada)\n"
             f"📈 <b>Total Pronósticos Oficiales:</b> <b>{total_semana}</b>\n\n"
             f"✅ <b>Alertas Acertadas:</b> <b>{aciertos_semana}</b> ({pct_acierto}%)\n"
@@ -2440,7 +2440,7 @@ def ejecutar_ciclo():
                 año_str = ahora_madrid.strftime('%Y')
 
                 msg_resumen_mensual = (
-                    f"🏆 <b>CIERRE MENSUAL OFICIAL — APEX QUANT BALONCESTO</b> 📊\n\n"
+                    f"🏆 <b>CIERRE MENSUAL OFICIAL — APEX QUANT BASKET</b> 📊\n\n"
                     f"📅 <b>Mes:</b> <b>{nombre_mes_str} {año_str}</b> (Finalizado)\n"
                     f"📈 <b>Total Pronósticos Oficiales:</b> <b>{total_mes}</b>\n\n"
                     f"✅ <b>Alertas Acertadas:</b> <b>{aciertos_mes}</b> ({pct_acierto_mes}%)\n"

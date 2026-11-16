@@ -1,5 +1,5 @@
 """
-APEX QUANT BALONCESTO — MERCADOS DE JUGADORES Y MYMATCH (NBA y Euroliga)
+APEX QUANT BASKET — MERCADOS DE JUGADORES Y MYMATCH (NBA y Euroliga)
 
 1) Descarga las estadísticas de cada partido terminado (minutos, puntos, rebotes, asistencias y triples de cada
    jugador): NBA desde ESPN y Euroliga desde la web oficial de la Euroliga. Se guardan en jugadores.json.
@@ -22,7 +22,7 @@ import requests
 from datetime import datetime, timezone
 
 ARCHIVO_JUGADORES = "jugadores.json"
-HEADERS = {"User-Agent": "Mozilla/5.0 (ApexQuantBaloncesto)", "Accept": "application/json"}
+HEADERS = {"User-Agent": "Mozilla/5.0 (ApexQuantBasket)", "Accept": "application/json"}
 
 PROPS_ACTIVO = os.getenv("PROPS_ACTIVO", "1") == "1"
 LIGAS_PROPS = ("NBA", "EL")

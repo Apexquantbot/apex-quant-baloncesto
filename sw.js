@@ -1,8 +1,8 @@
-// Service Worker PWA - Apex Quant Baloncesto v1.0
+// Service Worker PWA - Apex Quant Basket v1.0
 // - Solo intercepta recursos del propio sitio (CDN, fuentes y escudos pasan directos, sin guardarse).
 // - La clave de caché ignora la query (?t=...): datos.json ocupa UNA sola entrada que se va sobrescribiendo.
 // - Tope de entradas por si algún día se añaden más archivos.
-const CACHE_NAME = 'apex-quant-baloncesto-v1.3';
+const CACHE_NAME = 'apex-quant-baloncesto-v1.4';
 const SHELL = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 const MAX_ENTRADAS = 30;
 

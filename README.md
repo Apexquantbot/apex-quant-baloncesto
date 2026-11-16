@@ -1,6 +1,6 @@
-# Apex Quant Baloncesto
+# Apex Quant Basket
 
-Versión de Apex Quant para baloncesto: **NBA, Euroliga, Liga Endesa (ACB) y Basketball Champions League**.
+Versión de Apex Quant para basket: **NBA, Euroliga, Liga Endesa (ACB) y Basketball Champions League**.
 Misma estructura, estilo y funcionamiento que Apex Quant fútbol y Apex Quant Mercados.
 
 - Web / app: https://apexquantbot.github.io/apex-quant-baloncesto/

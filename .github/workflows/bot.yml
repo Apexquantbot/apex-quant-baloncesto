@@ -1,4 +1,4 @@
-name: Apex Quant Baloncesto 24/7
+name: Apex Quant Basket 24/7
 
 on:
   schedule:
@@ -30,7 +30,7 @@ jobs:
       - name: Instalar librerias
         run: pip install -r requirements.txt
 
-      - name: Ejecutar Apex Quant Baloncesto
+      - name: Ejecutar Apex Quant Basket
         env:
           THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
