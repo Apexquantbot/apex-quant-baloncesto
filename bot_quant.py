@@ -1719,7 +1719,7 @@ def actualizar_ledger(alertas, partidos):
     nuevas = 0
 
     for a in alertas:
-        if not (a.get("finalizado") and a.get("acertado") is not None and a.get("cuotas_reales") and not a.get("push")):
+        if not (a.get("finalizado") and a.get("acertado") is not None and not a.get("push")):
             continue
         es_combi = bool(a.get("es_combinada"))
         pid = str(a.get("id_alerta")) if es_combi else f"TG_{a.get('id_alerta')}"
@@ -1729,7 +1729,8 @@ def actualizar_ledger(alertas, partidos):
                       "semana_id": a.get("semana_id"), "partido": a.get("partido"), "mercado": a.get("mercado"),
                       "casa": a.get("casa"), "cuota": _a_float(a.get("cuota"), 2.0), "stake": _a_float(a.get("stake"), 1.0),
                       "ev": _a_float(a.get("ev"), 0.0), "confirmado_stats": a.get("confirmado_stats"),
-                      "acertado": bool(a.get("acertado")), "marcador": a.get("marcador_final")})
+                      "acertado": bool(a.get("acertado")), "marcador": a.get("marcador_final"),
+                      "tipo": "COMBINADA" if es_combi else a.get("tipo_mercado"), "solo_modelo": not a.get("cuotas_reales")})
         ids.add(pid)
         nuevas += 1
 
@@ -1745,7 +1746,7 @@ def actualizar_ledger(alertas, partidos):
                       "mercado": p.get("mercado"), "casa": p.get("casa"), "cuota": _a_float(p.get("cuota"), 2.0),
                       "stake": _a_float(p.get("stake"), 1.0), "ev": _a_float(p.get("ev_numero"), 0.0),
                       "confirmado_stats": p.get("confirmado_stats"), "acertado": bool(p.get("acertado")),
-                      "marcador": p.get("marcador")})
+                      "marcador": p.get("marcador"), "tipo": p.get("tipo_mercado"), "solo_modelo": bool(p.get("solo_modelo"))})
         ids.add(pid)
         nuevas += 1
 

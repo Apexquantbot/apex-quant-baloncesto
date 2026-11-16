@@ -869,10 +869,22 @@
       return `<path d="${d}" fill="none" stroke="${color}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>`;
     }
 
+    function tipoPick(p) {
+      if (p.tipo) return p.tipo;
+      if (p.grupo === 'COMBI') return 'COMBINADA';
+      const m = p.mercado || '';
+      if (/^Hándicap|^Handicap/i.test(m)) return 'HANDICAP';
+      if (/^Victoria/i.test(m)) return 'GANADOR';
+      if (/:\s*Más de/i.test(m)) return m.includes(' + ') ? 'MYMATCH' : 'JUGADOR';
+      if (/ \+ /.test(m)) return 'COMBO_MERCADOS';
+      if (/Puntos/i.test(m)) return /Puntos (de |equipo)/i.test(m) ? 'PUNTOS_EQUIPO' : 'PUNTOS';
+      return 'OTRO';
+    }
+
     function renderizarHistorico(picks) {
       const cont = document.getElementById('histContenido');
       if (!picks.length) {
-        cont.innerHTML = `<div class="p-6 text-center text-xs text-slate-400">Aún no hay picks liquidadas con cuotas reales. El histórico se irá llenando a medida que terminen los partidos.</div>`;
+        cont.innerHTML = `<div class="p-6 text-center text-xs text-slate-400">Aún no hay pronósticos terminados. El histórico se irá llenando a medida que terminen los partidos.</div>`;
         return;
       }
       const tg = picks.filter(p => p.grupo === 'TG');
@@ -917,6 +929,19 @@
         return filaMes + filasSem;
       }).join('');
 
+      // Desglose por mercado y por origen (igual que en Tenis)
+      const pctTxt = (r) => r.n ? Math.round(r.w / r.n * 100) + '%' : '--%';
+      const filaRes = ([t, r]) => `<tr class="border-t border-slate-800/80"><td class="py-1.5 text-slate-300">${t}</td><td class="text-right text-white font-bold">${pctTxt(r)}</td><td class="text-right text-slate-400">${r.w}V-${r.n - r.w}D</td><td class="text-right ${colorNum(r.net)}">${fmtU(r.net)}</td></tr>`;
+      const tiposMercado = [['GANADOR', '🏆 Victoria'], ['PUNTOS', '🎯 Puntos totales'], ['HANDICAP', '⚖️ Hándicap'], ['PUNTOS_EQUIPO', '📊 Puntos equipo'], ['JUGADOR', '👤 Jugador'], ['MYMATCH', '🧩 Combinada'], ['COMBO_MERCADOS', '🧩 Combinada de mercados'], ['COMBINADA', '🔗 Combinada varios partidos']]
+        .map(([k, t]) => [t, resumenPicks(picks.filter(p => p.grupo !== 'CONTROL' && tipoPick(p) === k))]).filter(x => x[1].n);
+      const origenes = [['Con cuotas reales', resumenPicks(picks.filter(p => p.grupo !== 'CONTROL' && !p.solo_modelo))], ['Solo modelo (cuota mínima)', resumenPicks(picks.filter(p => p.grupo !== 'CONTROL' && p.solo_modelo))]].filter(x => x[1].n);
+      const tarjetaMercados = (tiposMercado.length || origenes.length) ? `
+        <div class="p-3 rounded-2xl bg-brand-card border border-brand-border">
+          <span class="text-[10px] font-bold uppercase tracking-wide text-slate-400 block mb-1.5">Por mercado y por origen</span>
+          <table class="w-full text-[11px] font-mono"><tbody>${tiposMercado.map(filaRes).join('')}${origenes.length ? '<tr><td colspan="4" class="pt-2"></td></tr>' + origenes.map(filaRes).join('') : ''}</tbody></table>
+          <p class="text-[9px] text-slate-500 mt-1.5">Pronósticos enviados (Telegram y combinadas); no incluye Control.</p>
+        </div>` : '';
+
       const aviso = (rTG.n + rCT.n + rCB.n) < 50
         ? `<div class="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-[10px] text-amber-300">Muestra pequeña (${rTG.n + rCT.n + rCB.n} picks). Con menos de ~50 picks el resultado es sobre todo azar: no saques conclusiones todavía.</div>` : '';
 
@@ -947,8 +972,9 @@
             <tbody>${filas}</tbody>
           </table>
         </div>
+        ${tarjetaMercados}
         ${aviso}
-        <p class="text-[9px] text-slate-500 leading-relaxed">Solo picks liquidadas con cuotas reales de mercado. Si Telegram rinde mejor que Control de forma sostenida, el filtro de valor + estadística aporta algo; si rinden igual, no.</p>`;
+        <p class="text-[9px] text-slate-500 leading-relaxed">Incluye los pronósticos con cuotas reales y los del modelo sin cuotas (jugador, combinadas, ACB y BCL), calculados con su cuota mínima: el beneficio real puede ser algo mayor. Si Telegram rinde mejor que Control de forma sostenida, el filtro de valor + estadística aporta algo; si rinden igual, no.</p>`;
     }
 
     async function abrirHistorico() {
