@@ -1850,6 +1850,7 @@ def ejecutar_ciclo():
     partidos_previos = datos_previos.get("partidos", [])
     semana_guardada = datos_previos.get("semana_activa", semana_actual_id)
     resumen_semanal_enviado = datos_previos.get("resumen_semanal_enviado_para", "")
+    resumen_semanal_completo = datos_previos.get("resumen_semanal_completo")
 
     # Mensaje de bienvenida (una sola vez): confirma que el bot puede publicar en el canal
     telegram_ok = bool(datos_previos.get("telegram_ok"))
@@ -2318,36 +2319,67 @@ def ejecutar_ciclo():
                     enviar_telegram(msg_settle, url_accion=APP_URL, texto_boton="📱 Ver en la Web App")
                     alerta["liquidada_telegram"] = True
 
-    # RESUMEN DOMINICAL
-    if dia_semana == 6 and hora_int >= 22 and resumen_semanal_enviado != semana_actual_id:
-        partidos_domingo = [p for p in partidos_para_web if p["fecha"] == hoy_madrid_str]
-        partidos_pendientes_domingo = [p for p in partidos_domingo if p["estado"] != "FINISHED"]
-        
-        if len(partidos_pendientes_domingo) == 0 or (hora_int == 23 and ahora_madrid.minute >= 45):
-            alertas_semana_actual = [a for a in alertas_acumuladas if a.get("semana_id") == semana_actual_id and a.get("finalizado")]
-            resumen_fin = calcular_resumen_financiero(alertas_semana_actual)
-            total_semana = resumen_fin["finalizadas"]
-            
-            if total_semana > 0:
-                aciertos_semana = resumen_fin["acertadas"]
-                fallos_semana = resumen_fin["falladas"]
-                pct_acierto = round((aciertos_semana / total_semana) * 100, 1)
-                signo_u = "+" if resumen_fin["unidades_netas"] >= 0 else ""
+    # RESUMEN SEMANAL: se envía cuando han terminado TODOS los partidos con alerta de la semana,
+    # aunque acaben el lunes de madrugada. Si ya se envió con alertas sin terminar, se manda uno actualizado.
+    def _alertas_de(sem):
+        return [a for a in alertas_acumuladas if a.get("semana_id") == sem]
 
-                msg_resumen_domingo = (
-                    f"📊 <b>CIERRE SEMANAL OFICIAL — APEX QUANT BALONCESTO</b> 🏆\n\n"
-                    f"📅 <b>Semana:</b> {semana_actual_id} (Finalizada)\n"
-                    f"📈 <b>Total Pronósticos Oficiales:</b> <b>{total_semana}</b>\n\n"
-                    f"✅ <b>Alertas Acertadas:</b> <b>{aciertos_semana}</b> ({pct_acierto}%)\n"
-                    f"❌ <b>Alertas Falladas:</b> <b>{fallos_semana}</b>\n"
-                    f"🎯 <b>Efectividad Oficial:</b> <b>{pct_acierto}%</b>\n\n"
-                    f"💰 <b>Rendimiento Neto:</b> <b>{signo_u}{resumen_fin['unidades_netas']} Unidades</b>\n"
-                    f"📈 <b>Yield / ROI Semanal:</b> <b>{signo_u}{resumen_fin['roi_pct']}%</b>\n\n"
-                    f"🔄 <i>Las estadísticas y partidos se reiniciarán automáticamente a las 00:00 del lunes para la nueva semana.</i>\n"
-                    f"⚡ <i>Apex Quant Engine • Máxima Transparencia y Disciplina</i>"
-                )
-                enviar_telegram(msg_resumen_domingo, url_accion=APP_URL, texto_boton="📱 Abrir Balance Completo en la App")
-                resumen_semanal_enviado = semana_actual_id
+    def _enviar_resumen_semanal(sem, actualizado=False):
+        todas = _alertas_de(sem)
+        fin = [a for a in todas if a.get("finalizado")]
+        pendientes = len(todas) - len(fin)
+        resumen_fin = calcular_resumen_financiero(fin)
+        total_semana = resumen_fin["finalizadas"]
+        if total_semana <= 0:
+            return pendientes == 0
+        aciertos_semana = resumen_fin["acertadas"]
+        fallos_semana = resumen_fin["falladas"]
+        pct_acierto = round((aciertos_semana / total_semana) * 100, 1)
+        signo_u = "+" if resumen_fin["unidades_netas"] >= 0 else ""
+        titulo = "CIERRE SEMANAL ACTUALIZADO" if actualizado else "CIERRE SEMANAL OFICIAL"
+        if actualizado:
+            pie = "🔁 <i>Incluye los partidos que terminaron después del primer cierre.</i>\n"
+        elif sem == semana_actual_id:
+            pie = "🔄 <i>Las estadísticas se reiniciarán automáticamente a las 00:00 del lunes para la nueva semana.</i>\n"
+        else:
+            pie = "🔄 <i>Incluye los partidos del domingo que terminaron de madrugada. La nueva semana ya está en marcha.</i>\n"
+        if pendientes:
+            pie += f"⏳ <i>{pendientes} pronóstico(s) aún sin resultado: se enviará un cierre actualizado cuando terminen.</i>\n"
+        msg = (
+            f"📊 <b>{titulo} — APEX QUANT BALONCESTO</b> 🏆\n\n"
+            f"📅 <b>Semana:</b> {sem} (Finalizada)\n"
+            f"📈 <b>Total Pronósticos Oficiales:</b> <b>{total_semana}</b>\n\n"
+            f"✅ <b>Alertas Acertadas:</b> <b>{aciertos_semana}</b> ({pct_acierto}%)\n"
+            f"❌ <b>Alertas Falladas:</b> <b>{fallos_semana}</b>\n"
+            f"🎯 <b>Efectividad Oficial:</b> <b>{pct_acierto}%</b>\n\n"
+            f"💰 <b>Rendimiento Neto:</b> <b>{signo_u}{resumen_fin['unidades_netas']} Unidades</b>\n"
+            f"📈 <b>Yield / ROI Semanal:</b> <b>{signo_u}{resumen_fin['roi_pct']}%</b>\n\n"
+            f"{pie}"
+            f"⚡ <i>Apex Quant Engine • Máxima Transparencia y Disciplina</i>"
+        )
+        enviar_telegram(msg, url_accion=APP_URL, texto_boton="📱 Abrir Balance Completo en la App")
+        print(f"📨 {titulo} {sem} enviado ({total_semana} finalizadas, {pendientes} pendientes)")
+        return pendientes == 0
+
+    semana_anterior_id = obtener_identificador_semana(ahora_madrid - timedelta(days=7))
+    if resumen_semanal_completo is None:   # dato antiguo: completo si no quedan alertas abiertas de esa semana
+        resumen_semanal_completo = all(a.get("finalizado") for a in _alertas_de(resumen_semanal_enviado))
+
+    if dia_semana == 6 and hora_int >= 22 and resumen_semanal_enviado != semana_actual_id:
+        # Domingo noche: solo si ya ha terminado todo lo de la semana; si no, se envía el lunes al terminar
+        partidos_pendientes_domingo = [p for p in partidos_para_web if p["fecha"] == hoy_madrid_str and p["estado"] != "FINISHED"]
+        if not partidos_pendientes_domingo and all(a.get("finalizado") for a in _alertas_de(semana_actual_id)):
+            resumen_semanal_completo = _enviar_resumen_semanal(semana_actual_id)
+            resumen_semanal_enviado = semana_actual_id
+    elif resumen_semanal_enviado not in (semana_actual_id, semana_anterior_id):
+        # Cierre de la semana anterior: cuando terminen todos sus partidos con alerta (como tarde, el lunes a las 14:00)
+        if all(a.get("finalizado") for a in _alertas_de(semana_anterior_id)) or (dia_semana == 0 and hora_int >= 14) or dia_semana > 0:
+            resumen_semanal_completo = _enviar_resumen_semanal(semana_anterior_id)
+            resumen_semanal_enviado = semana_anterior_id
+    elif not resumen_semanal_completo and all(a.get("finalizado") for a in _alertas_de(resumen_semanal_enviado)):
+        # Ya se envió con partidos sin terminar: cierre actualizado con todo
+        _enviar_resumen_semanal(resumen_semanal_enviado, actualizado=True)
+        resumen_semanal_completo = True
 
     # RESUMEN MENSUAL
     dia_manana_madrid = ahora_madrid + timedelta(days=1)
@@ -2446,6 +2478,7 @@ def ejecutar_ciclo():
         "lunes_semana": lunes_semana_str,
         "domingo_semana": domingo_semana_str,
         "resumen_semanal_enviado_para": resumen_semanal_enviado,
+        "resumen_semanal_completo": resumen_semanal_completo,
         "resumen_mensual_enviado_para": resumen_mensual_enviado,
         "metricas_semana": metricas_semana,
         "total_partidos_hoy": len(partidos_guardar),
