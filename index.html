@@ -741,7 +741,7 @@
     // =========================================================================
     // ESTADO DEL BOT (frescura de datos, API de cuotas, créditos)
     // =========================================================================
-    const VERSION_WEB = '1.3';
+    const VERSION_WEB = '1.2';
     function actualizarVersion() {
       const el = document.getElementById('verTxt');
       if (!el) return;
@@ -1291,6 +1291,11 @@
                 </div>`).join('')}
             </div>
             <div class="text-[10px] text-slate-400 font-mono">Prob. ${a.legs.length > 1 ? 'de que acierten todas' : 'de acierto'} ${a.prob_combinada}%${a.legs.length > 1 ? ' · móntala como combinada del mismo partido en Winamax' : ''}</div>
+            ${a.arriesgada ? `<div class="mt-1 p-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-[11px] text-amber-200">
+              <div class="font-bold">🔺 Versión arriesgada ${a.arriesgada.acertado === true ? '✅' : (a.arriesgada.acertado === false ? '❌' : '')}</div>
+              <div class="text-amber-100/90">${a.arriesgada.patas.map(x => x.mercado + ' (' + x.prob + '%)').join(' + ')}</div>
+              <div class="font-mono text-amber-300">Cuota mín. @${a.arriesgada.cuota_min} · prob. ${a.arriesgada.prob}% · stake 0,5/10</div>
+            </div>` : ''}
             ` : a.es_combinada && a.legs ? `
             <div class="text-sm font-extrabold text-white flex items-center gap-2 flex-wrap">
               <span class="px-1.5 py-0.5 rounded text-[9px] font-extrabold bg-violet-500/20 text-violet-300 border border-violet-500/40">COMBINADA DE PARTIDOS ×${a.legs.length}</span>

@@ -46,9 +46,32 @@ LINEAS = {
 NOMBRE_STAT = {"pts": "puntos", "reb": "rebotes", "ast": "asistencias", "tri": "triples", "pra": "puntos + rebotes + asistencias"}
 IDX = {"min": 2, "pts": 3, "reb": 4, "ast": 5, "tri": 6}   # columnas de cada partido guardado: [u, rival, min, pts, reb, ast, tri, gid]
 
-# Correlación entre selecciones del mismo jugador (cópula gaussiana)
-CORR_MISMO = {frozenset(("pts", "tri")): 0.55, frozenset(("pts", "ast")): 0.30, frozenset(("pts", "reb")): 0.25,
-              frozenset(("reb", "ast")): 0.15, frozenset(("tri", "ast")): 0.15, frozenset(("tri", "reb")): 0.05}
+# Correlación entre selecciones del mismo jugador (cópula gaussiana). Ajustada el 18/11/2026 con ~2.500 partidos
+# de jugador reales: puntos-triples y P+R+A con sus partes van muy unidos; asistencias casi independientes.
+CORR_MISMO = {frozenset(("pts", "tri")): 0.55, frozenset(("pts", "ast")): 0.10, frozenset(("pts", "reb")): 0.22,
+              frozenset(("reb", "ast")): 0.12, frozenset(("tri", "ast")): 0.08, frozenset(("tri", "reb")): 0.06}
+
+# Calibración (18/11/2026): probabilidad del modelo -> % de acierto REAL medido en 20.000 líneas de ~2.500
+# partidos de jugador (prueba hacia delante, sin mirar el futuro). La NBA salía bien calibrada salvo un exceso
+# de confianza de 2-3 puntos entre el 78% y el 90%; la Euroliga se pasaba de confiada 4-7 puntos en todo el tramo.
+CALIBRACION = {
+    "NBA": [(0.53, 0.549), (0.59, 0.600), (0.65, 0.639), (0.711, 0.712), (0.761, 0.756), (0.80, 0.773),
+            (0.84, 0.824), (0.88, 0.854), (0.927, 0.932)],
+    "EL": [(0.53, 0.542), (0.59, 0.549), (0.65, 0.612), (0.71, 0.671), (0.76, 0.705), (0.799, 0.751),
+           (0.84, 0.813), (0.88, 0.813), (0.926, 0.859)],
+}
+
+
+def calibrar(liga, p):
+    tabla = CALIBRACION.get(liga)
+    if not tabla:
+        return p
+    if p <= tabla[0][0]:
+        return max(0.0, p + (tabla[0][1] - tabla[0][0]))
+    for (x0, y0), (x1, y1) in zip(tabla, tabla[1:]):
+        if p <= x1:
+            return y0 + (y1 - y0) * (p - x0) / (x1 - x0)
+    return tabla[-1][1]
 
 DIAG = {"box_nba": 0, "box_el": 0, "errores": 0, "lesiones": 0}
 
@@ -323,8 +346,8 @@ def candidatos_partido(store, liga, partido, resultados, fuerzas, fuera):
         for st, lineas in LINEAS.items():
             media, var = proy[st]
             for l in lineas:
-                p = min(PROB_TOPE, _nb_sobre(media, var, l))
-                if p < 0.55:
+                p = min(PROB_TOPE, calibrar(liga, _nb_sobre(media, var, l)))
+                if p < 0.35:
                     break
                 sel.append({"t": "JUG", "jid": jid, "jugador": j["n"], "equipo": eq, "stat": st, "l": l,
                             "p": p, "media": round(media, 1), "min": proy["min"]})
@@ -431,6 +454,32 @@ def elegir_mymatch(cands, patas_equipo):
     return mejor
 
 
+def subir_escalon(pata, cands):
+    """La misma selección un escalón más arriba (p. ej. Más de 14,5 -> Más de 19,5), con su probabilidad."""
+    if pata.get("t") != "JUG":
+        return None
+    mas_altas = [c for c in cands if c["jid"] == pata["jid"] and c["stat"] == pata["stat"] and c["l"] > pata["l"]]
+    return min(mas_altas, key=lambda c: c["l"]) if mas_altas else None
+
+
+def version_arriesgada(patas, cands):
+    """Todas las selecciones de jugador un escalón más arriba: más cuota, menos probabilidad."""
+    nuevas, cambio = [], False
+    for pt in patas:
+        alt = subir_escalon(pt, cands)
+        if alt:
+            nuevas.append(alt)
+            cambio = True
+        else:
+            nuevas.append(pt)
+    if not cambio:
+        return None
+    p = prob_conjunta(nuevas, n=20000)
+    if p < 0.12:
+        return None
+    return {"patas": nuevas, "p": p, "cuota_min": round(MARGEN_PROPS / p, 2)}
+
+
 def elegir_simple(cands):
     ok = [c for c in cands if SIMPLE_PROB[0] <= c["p"] <= SIMPLE_PROB[1] and c["stat"] in ("pts", "tri", "reb", "ast", "pra")]
     if not ok:
@@ -442,8 +491,8 @@ def elegir_simple(cands):
 # ------------------------------------------------------------------------------------------------
 # Alertas y liquidación
 # ------------------------------------------------------------------------------------------------
-def _alerta_base(partido, semana_id, id_alerta, patas, p, cuota_min, titulo):
-    return {
+def _alerta_base(partido, semana_id, id_alerta, patas, p, cuota_min, titulo, arriesgada=None):
+    a = {
         "id_partido": str(partido["id"]), "id_alerta": id_alerta,
         "partido": f"{partido['local']} vs {partido['visitante']}",
         "mercado": " + ".join(texto_pata(pt) for pt in patas),
@@ -465,6 +514,13 @@ def _alerta_base(partido, semana_id, id_alerta, patas, p, cuota_min, titulo):
         "marcador": None, "marcador_final": None, "finalizado": False, "acertado": None,
         "liquidada_telegram": False, "cuotas_reales": False, "solo_modelo": True,
     }
+    if arriesgada:
+        a["arriesgada"] = {"mercado": " + ".join(texto_pata(pt) for pt in arriesgada["patas"]),
+                           "patas": [{"mercado": texto_pata(pt), "prob": round(pt["p"] * 100, 1),
+                                      "jid": pt.get("jid"), "stat": pt.get("stat"), "l": pt.get("l"), "t": pt["t"]}
+                                     for pt in arriesgada["patas"]],
+                           "prob": round(arriesgada["p"] * 100, 1), "cuota_min": arriesgada["cuota_min"]}
+    return a
 
 
 def mensaje_alerta(a, minutos):
@@ -483,7 +539,11 @@ def mensaje_alerta(a, minutos):
         f"Juégala solo si tu casa paga esa cuota o más.\n"
         f"🎲 <b>Probabilidad {'de que acierten todas' if es_mm else 'de acierto'}:</b> {a['prob_combinada']}%\n"
         f"💡 <b>Stake Sugerido:</b> {a['stake']} unidades\n"
-        f"ℹ️ Si un jugador no juega, su selección suele anularse.\n\n"
+        + (f"\n🔺 <b>Versión arriesgada</b> (un escalón más):\n"
+           + "\n".join(f"   • {pt['mercado']} · prob. {pt['prob']}%" for pt in a["arriesgada"]["patas"])
+           + f"\n   💰 Cuota mínima: <b>@{a['arriesgada']['cuota_min']}</b> · prob. {a['arriesgada']['prob']}% · stake 0,5/10\n"
+           if a.get("arriesgada") else "")
+        + f"ℹ️ Si un jugador no juega, su selección suele anularse.\n\n"
         f"⚡ <i>Apex Quant Engine • Modelo de jugadores</i>"
     )
 
@@ -525,7 +585,8 @@ def generar_alertas(partidos_web, store, resultados, fuerzas_por_liga, alertas, 
         if id_mm not in existentes:
             mm = elegir_mymatch(cands, patas_eq)
             if mm:
-                a = _alerta_base(p, semana_id, id_mm, mm["patas"], mm["p"], mm["cuota_min"], "Combinada")
+                a = _alerta_base(p, semana_id, id_mm, mm["patas"], mm["p"], mm["cuota_min"], "Combinada",
+                                 version_arriesgada(mm["patas"], cands))
                 enviar(mensaje_alerta(a, mr), url_accion=app_url, texto_boton="📱 Abrir en Web App")
                 alertas.append(a)
                 existentes.add(id_mm)
@@ -536,7 +597,7 @@ def generar_alertas(partidos_web, store, resultados, fuerzas_por_liga, alertas, 
             s = elegir_simple([c for c in cands if (c["jid"], c["stat"]) not in usados])
             if s:
                 cuota_min = round(MARGEN_PROPS / s["p"], 2)
-                a = _alerta_base(p, semana_id, id_s, [s], s["p"], cuota_min, "Jugador")
+                a = _alerta_base(p, semana_id, id_s, [s], s["p"], cuota_min, "Jugador", version_arriesgada([s], cands))
                 enviar(mensaje_alerta(a, mr), url_accion=app_url, texto_boton="📱 Abrir en Web App")
                 alertas.append(a)
                 existentes.add(id_s)
@@ -584,6 +645,25 @@ def liquidar(alertas, store, partidos_map, enviar, app_url):
                 aciertos += 1
             else:
                 fallos += 1
+        # versión arriesgada: se liquida aparte para medir si compensa
+        arr = a.get("arriesgada")
+        if arr and arr.get("acertado") is None:
+            res_arr = []
+            for pt in arr["patas"]:
+                if pt["t"] == "ML":
+                    leg_ml = next((l for l in a["legs"] if l["t"] == "ML"), None)
+                    res_arr.append(leg_ml["res"] if leg_ml else None)
+                    continue
+                filas = [r for r in store[liga]["p"].get(pt["jid"], {}).get("g", []) if r[7] == pid]
+                if not filas:
+                    res_arr.append("NULA")
+                    continue
+                r = filas[0]
+                v = r[3] + r[4] + r[5] if pt["stat"] == "pra" else r[IDX[pt["stat"]]]
+                pt["valor"] = v
+                res_arr.append(v > pt["l"])
+            validas = [x for x in res_arr if x != "NULA"]
+            arr["acertado"] = None if not validas else all(x is True for x in validas)
         a["finalizado"] = True
         a["estado_partido"] = "FINISHED"
         a["marcador_final"] = info.get("marcador")
@@ -606,6 +686,9 @@ def liquidar(alertas, store, partidos_map, enviar, app_url):
                 titulo = "➖ <b>Resultado:</b> ANULADA (no jugó)"
             else:
                 titulo = "✅ <b>Resultado:</b> ACERTADA" if a["acertado"] else "❌ <b>Resultado:</b> PERDIDA"
+            if arr and arr.get("acertado") is not None:
+                det += (f"\n🔺 Versión arriesgada (@{arr['cuota_min']}): "
+                        f"{'✅ ACERTADA' if arr['acertado'] else '❌ fallada'}")
             enviar(f"🎯 <b>{('Combinada' if a.get('titulo') in (None, 'MyMatch') else a.get('titulo')).upper()}</b> — {a['partido']} ({a.get('marcador_final') or ''})\n{det}\n\n{titulo}\n"
                    f"💰 <b>Cuota mínima:</b> {a['cuota']} • 💡 <b>Stake:</b> {a['stake']}\n\n⚡ <i>Apex Quant Engine</i>",
                    url_accion=app_url, texto_boton="📱 Ver en la Web App")

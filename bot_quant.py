@@ -12,7 +12,7 @@ from urllib.parse import quote
 from datetime import datetime, timezone, timedelta
 from zoneinfo import ZoneInfo
 
-VERSION = "1.1"
+VERSION = "1.2"
 
 # ==============================================================================
 # APEX QUANT BASKET
@@ -88,6 +88,7 @@ VENTANA_MAX = 90
 # Pronóstico solo con el modelo (ligas sin cuotas en The Odds API)
 MODELO_SOLO_ACTIVO = os.getenv("MODELO_SOLO_ACTIVO", "1") == "1"
 MODELO_SOLO_PROB_MIN = float(os.getenv("MODELO_SOLO_PROB_MIN", "0.70"))   # solo favoritos claros
+MODELO_SOLO_MIN_PARTIDOS = int(os.getenv("MODELO_SOLO_MIN_PARTIDOS", "8"))   # sin mercado que lo contraste, más datos
 MODELO_SOLO_MARGEN = 1.05      # la cuota mínima exige un 5% de ventaja sobre la cuota justa del modelo
 
 ODDS_ESTADO = {"restantes": None, "consultas": 0}
@@ -810,6 +811,10 @@ def analizar_solo_modelo(comp_code, local, visitante, form_info, local_id, visit
     modelo = calcular_modelo_estadistico(comp_code, local_id, visitante_id, cache_stats)
     if not modelo:
         return None, True, "Sin datos estadísticos suficientes (se necesitan varias jornadas jugadas)"
+    f = obtener_fuerzas_liga(comp_code, cache_stats)
+    if min(f["cnt"].get(str(local_id), 0), f["cnt"].get(str(visitante_id), 0)) < MODELO_SOLO_MIN_PARTIDOS:
+        return None, True, (f"Pronóstico solo con el modelo: se esperan {MODELO_SOLO_MIN_PARTIDOS} partidos por equipo "
+                             f"(sin cuotas de mercado que lo contrasten)")
     p1, _ = prob_modelo_sel(modelo, {"t": "ML", "s": "1"})
     s = "1" if p1 >= 0.5 else "2"
     p = p1 if s == "1" else 1.0 - p1
