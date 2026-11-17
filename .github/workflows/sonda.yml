@@ -1,0 +1,17 @@
+name: Prueba modelo jugadores vs mercado (temporal)
+on:
+  workflow_dispatch:
+jobs:
+  prueba:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python -u tools/comparar_props.py
+        env:
+          THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
+          N_PARTIDOS: "4"
