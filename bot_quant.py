@@ -12,7 +12,7 @@ from urllib.parse import quote
 from datetime import datetime, timezone, timedelta
 from zoneinfo import ZoneInfo
 
-VERSION = "1.2"
+VERSION = "1.3"
 
 # ==============================================================================
 # APEX QUANT BASKET
@@ -1709,6 +1709,32 @@ def _a_float(txt, defecto):
         return defecto
 
 
+def _alertas_a_guardar(alertas, sem_actual, sem_anterior):
+    """Antes se guardaban solo las 70 últimas y, con las de jugador, una semana tiene muchas más: se perdían
+    alertas del recuento semanal. Ahora se guardan todas las de esta semana y la anterior y las que sigan abiertas."""
+    keep = [a for a in alertas if a.get("semana_id") in (sem_actual, sem_anterior) or not a.get("finalizado")]
+    return keep[-900:]
+
+
+STAKE_ARRIESGADA = 0.5
+
+
+def arriesgadas_virtuales(alertas):
+    """Cada «versión arriesgada» liquidada como una apuesta más (stake 0,5 a su cuota mínima), para sumarla
+    a los totales semanales y mensuales, al libro mayor y a la web."""
+    out = []
+    for a in alertas:
+        arr = a.get("arriesgada") or {}
+        if not a.get("es_mymatch") or arr.get("acertado") is None:
+            continue
+        out.append({"id_alerta": f"ARR_{a.get('id_alerta')}", "es_arriesgada": True, "finalizado": True,
+                    "acertado": bool(arr["acertado"]), "push": False, "cuota": f"@{arr.get('cuota_min')}",
+                    "stake": f"{STAKE_ARRIESGADA}/10", "fecha": a.get("fecha"), "semana_id": a.get("semana_id"),
+                    "partido": a.get("partido"), "mercado": arr.get("mercado"), "liga": a.get("liga"),
+                    "tipo_mercado": "ARRIESGADA", "es_semana_actual": a.get("es_semana_actual", True)})
+    return out
+
+
 def actualizar_ledger(alertas, partidos):
     """Libro mayor permanente (no se reinicia los lunes) con todas las picks liquidadas con cuotas reales:
     grupo TG = alertas enviadas a Telegram; grupo CONTROL = picks analizadas y descartadas."""
@@ -1737,6 +1763,17 @@ def actualizar_ledger(alertas, partidos):
                       "acertado": bool(a.get("acertado")), "marcador": a.get("marcador_final"),
                       "tipo": "COMBINADA" if es_combi else a.get("tipo_mercado"), "solo_modelo": not a.get("cuotas_reales")})
         ids.add(pid)
+        nuevas += 1
+
+    for v in arriesgadas_virtuales(alertas):
+        if v["id_alerta"] in ids:
+            continue
+        picks.append({"id": v["id_alerta"], "version": VERSION, "grupo": "ARRIESGADA", "fecha": v["fecha"],
+                      "mes": (v["fecha"] or "")[:7], "semana_id": v["semana_id"], "partido": v["partido"],
+                      "mercado": v["mercado"], "casa": None, "cuota": _a_float(v["cuota"], 2.0), "stake": STAKE_ARRIESGADA,
+                      "ev": 8.0, "confirmado_stats": True, "acertado": v["acertado"], "marcador": None,
+                      "tipo": "ARRIESGADA", "solo_modelo": True})
+        ids.add(v["id_alerta"])
         nuevas += 1
 
     for p in partidos:
@@ -2334,7 +2371,9 @@ def ejecutar_ciclo():
         todas = _alertas_de(sem)
         fin = [a for a in todas if a.get("finalizado")]
         pendientes = len(todas) - len(fin)
-        resumen_fin = calcular_resumen_financiero(fin)
+        arr_sem = arriesgadas_virtuales(fin)
+        res_arr = calcular_resumen_financiero(arr_sem)
+        resumen_fin = calcular_resumen_financiero(fin + arr_sem)   # el total incluye las versiones arriesgadas
         total_semana = resumen_fin["finalizadas"]
         if total_semana <= 0:
             return pendientes == 0
@@ -2359,7 +2398,10 @@ def ejecutar_ciclo():
             f"❌ <b>Alertas Falladas:</b> <b>{fallos_semana}</b>\n"
             f"🎯 <b>Efectividad Oficial:</b> <b>{pct_acierto}%</b>\n\n"
             f"💰 <b>Rendimiento Neto:</b> <b>{signo_u}{resumen_fin['unidades_netas']} Unidades</b>\n"
-            f"📈 <b>Yield / ROI Semanal:</b> <b>{signo_u}{resumen_fin['roi_pct']}%</b>\n\n"
+            f"📈 <b>Yield / ROI Semanal:</b> <b>{signo_u}{resumen_fin['roi_pct']}%</b>\n"
+            + (f"🔺 <i>Incluye {res_arr['finalizadas']} versiones arriesgadas: {res_arr['acertadas']}V - {res_arr['falladas']}D, "
+               f"{'+' if res_arr['unidades_netas'] >= 0 else ''}{res_arr['unidades_netas']} U.</i>\n" if res_arr["finalizadas"] else "")
+            + "\n"
             f"{pie}"
             f"⚡ <i>Apex Quant Engine • Máxima Transparencia y Disciplina</i>"
         )
@@ -2413,6 +2455,8 @@ def ejecutar_ciclo():
                     alertas_mes_totales.append(a)
                     ids_ya_contadas.add(a.get("id_alerta"))
 
+            alertas_mes_totales = alertas_mes_totales + [v for v in arriesgadas_virtuales(alertas_mes_totales)
+                                                         if v["id_alerta"] not in ids_ya_contadas]
             resumen_mes_fin = calcular_resumen_financiero(alertas_mes_totales)
             total_mes = resumen_mes_fin["finalizadas"]
 
@@ -2461,7 +2505,7 @@ def ejecutar_ciclo():
                 resumen_mensual_enviado = mes_actual_id
 
     alertas_semana_act = [a for a in alertas_acumuladas if a.get("semana_id") == semana_actual_id]
-    metricas_semana = calcular_resumen_financiero(alertas_semana_act)
+    metricas_semana = calcular_resumen_financiero(alertas_semana_act + arriesgadas_virtuales(alertas_semana_act))
 
     # FUSIÓN DE PARTIDOS
     partidos_guardar = list(partidos_para_web)
@@ -2498,7 +2542,7 @@ def ejecutar_ciclo():
                         "ausentes": diag_refresco["ausentes"], "alertas_pendientes": diag_refresco["alertas"],
                         "refrescados": diag_refresco["refrescados"],
                         "fuentes": DIAG_FUENTES, "resultados_por_liga": {k: len(v) for k, v in resultados["ligas"].items()}},
-        "alertas": alertas_acumuladas[-70:]
+        "alertas": _alertas_a_guardar(alertas_acumuladas, semana_actual_id, obtener_identificador_semana(ahora_madrid - timedelta(days=7)))
     }
 
     actualizar_ledger(alertas_acumuladas, partidos_guardar)

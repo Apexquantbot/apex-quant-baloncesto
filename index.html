@@ -242,6 +242,48 @@
       </div>
     </div>
     <div class="p-3 rounded-2xl bg-brand-card border border-brand-border relative overflow-hidden shadow-md">
+      <div class="flex items-center justify-between gap-2 cursor-pointer select-none" onclick="toggleTarjeta('Arr')">
+        <div class="flex items-center gap-2 min-w-0">
+          <div class="w-7 h-7 rounded-lg bg-amber-500/15 border-amber-500/30 text-amber-400 border flex items-center justify-center flex-shrink-0">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+          </div>
+          <div class="min-w-0">
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <span class="text-[11px] font-extrabold text-white uppercase tracking-wide">Rendimiento Semanal</span>
+              <span class="px-1.5 py-0.5 rounded text-[8px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/30">🔺 VERSIÓN ARRIESGADA</span>
+            </div>
+            <p class="text-[9px] text-slate-400 leading-tight">Curva de Equity &amp; Balance de Unidades</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 flex-shrink-0">
+        <div class="text-right">
+          <span class="text-[8px] text-slate-400 font-bold uppercase tracking-wider block">Balance Neto</span>
+          <span id="balanceNetoArr" class="text-xs font-extrabold text-amber-400 font-mono">+0.00 U.</span>
+        </div>
+        <span id="chevArr" class="text-brand-primary text-sm w-3 text-center">▸</span>
+        </div>
+      </div>
+      <div id="detArr" class="hidden">
+      <div class="mt-1.5 px-2 py-1 rounded-lg bg-slate-900/60 border border-slate-800 text-[9px] text-slate-300 leading-snug">Versión arriesgada de cada combinada y selección de jugador (todas un escalón más arriba), a su <strong>cuota mínima</strong> y con <strong>stake 0,5</strong>. Suma al total.</div>
+      <div class="grid grid-cols-3 gap-1 mt-1.5 pt-1.5 border-t border-slate-800 text-center">
+        <div><span class="text-[8px] text-slate-400 uppercase font-bold block">Yield / ROI</span><span id="yieldRoiArr" class="text-[11px] font-bold text-slate-300 font-mono">+0.0%</span></div>
+        <div><span class="text-[8px] text-slate-400 uppercase font-bold block">Unidades Ganadas</span><span id="unidadesGanadasArr" class="text-[11px] font-bold text-slate-200 font-mono">+0.00 U.</span></div>
+        <div><span class="text-[8px] text-slate-400 uppercase font-bold block">Stake Apostado</span><span id="stakeApostadoArr" class="text-[11px] font-bold text-slate-400 font-mono">0.0 U.</span></div>
+      </div>
+      <div class="mt-1.5 pt-1.5 border-t border-slate-800/80">
+        <div class="flex items-center justify-between text-[9px] text-slate-400 mb-1">
+          <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>Curva de Crecimiento Bankroll (Arriesgada)</span>
+          <span id="picksArr" class="font-mono text-[9px] text-slate-400">0 picks evaluados</span>
+        </div>
+        <div class="h-7 w-full bg-slate-900/80 rounded-lg p-1 flex items-end">
+          <svg class="w-full h-full overflow-visible" viewBox="0 0 100 30" preserveAspectRatio="none">
+            <path id="equityPathArr" d="M 0 25 L 100 25" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+      </div>
+    </div>
+    <div class="p-3 rounded-2xl bg-brand-card border border-brand-border relative overflow-hidden shadow-md">
       <div class="flex items-center justify-between gap-2 cursor-pointer select-none" onclick="toggleTarjeta('Global')">
         <div class="flex items-center gap-2 min-w-0">
           <div class="w-7 h-7 rounded-lg bg-sky-500/15 border-sky-500/30 text-sky-400 border flex items-center justify-center flex-shrink-0">
@@ -264,7 +306,7 @@
         </div>
       </div>
       <div id="detGlobal" class="hidden">
-      <div class="mt-1.5 px-2 py-1 rounded-lg bg-slate-900/60 border border-slate-800 text-[9px] text-slate-300 leading-snug">Métricas consolidadas del <strong>universo total</strong> (suma unificada de Telegram + Control).</div>
+      <div class="mt-1.5 px-2 py-1 rounded-lg bg-slate-900/60 border border-slate-800 text-[9px] text-slate-300 leading-snug">Métricas consolidadas del <strong>universo total</strong> (suma de Telegram + Control + Versión arriesgada).</div>
       <div class="grid grid-cols-3 gap-1 mt-1.5 pt-1.5 border-t border-slate-800 text-center">
         <div><span class="text-[8px] text-slate-400 uppercase font-bold block">Yield / ROI</span><span id="yieldRoiGlobal" class="text-[11px] font-bold text-sky-400 font-mono">+0.0%</span></div>
         <div><span class="text-[8px] text-slate-400 uppercase font-bold block">Unidades Ganadas</span><span id="unidadesGanadasGlobal" class="text-[11px] font-bold text-sky-300 font-mono">+0.00 U.</span></div>
@@ -568,6 +610,16 @@
     // =========================================================================
     // CÁLCULO ESTRICTO DE RENDIMIENTO SEMANAL (SOLO SEMANA ACTUAL)
     // =========================================================================
+    // Convierte la «versión arriesgada» liquidada de cada alerta en una apuesta propia (stake 0,5 a cuota mínima)
+    function arriesgadasVirtuales(alertas) {
+      return (alertas || []).filter(a => a.es_mymatch && a.arriesgada && a.arriesgada.acertado !== null && a.arriesgada.acertado !== undefined)
+        .map(a => ({
+          id_alerta: 'ARR_' + a.id_alerta, es_arriesgada: true, finalizado: true, acertado: a.arriesgada.acertado === true,
+          cuota: '@' + a.arriesgada.cuota_min, stake: '0.5/10', fecha: a.fecha, hora: a.hora, semana_id: a.semana_id,
+          partido: a.partido, mercado: a.arriesgada.mercado, liga: a.liga, es_semana_actual: a.es_semana_actual
+        }));
+    }
+
     function calcularRendimientoGenerico(items, soloAlertasTG = true) {
       let unidadesApostadas = 0.0;
       let beneficioNeto = 0.0;
@@ -683,10 +735,17 @@
       document.getElementById('efectividadSinAlerta').innerText = pctSin !== '--' ? `${pctSin}%` : '--%';
       document.getElementById('conteoSinAlerta').innerText = `${aciertosSin}V - ${derrotasSin}D No TG`;
 
-      // 3. GLOBAL TOTAL: SUMA MATEMÁTICA EXACTA DE LA SEMANA ACTUAL (TELEGRAM + SIN ALERTA)
-      const victoriasGlobal = aciertosTG + aciertosSin;
-      const derrotasGlobal = derrotasTG + derrotasSin;
-      const totalGlobal = totalTG + totalSin;
+      // 2b. VERSIÓN ARRIESGADA: cada combinada/selección de jugador con su versión un escalón más alta,
+      // contada como apuesta propia (stake 0,5 a su cuota mínima)
+      const arriesgadasFin = arriesgadasVirtuales(alertasSemanaActual);
+      const aciertosArr = arriesgadasFin.filter(a => a.acertado === true).length;
+      const totalArr = arriesgadasFin.length;
+      const derrotasArr = totalArr - aciertosArr;
+
+      // 3. GLOBAL TOTAL: SUMA MATEMÁTICA EXACTA DE LA SEMANA ACTUAL (TELEGRAM + SIN ALERTA + ARRIESGADA)
+      const victoriasGlobal = aciertosTG + aciertosSin + aciertosArr;
+      const derrotasGlobal = derrotasTG + derrotasSin + derrotasArr;
+      const totalGlobal = totalTG + totalSin + totalArr;
       const pctGlobal = totalGlobal > 0 ? Math.round((victoriasGlobal / totalGlobal) * 100) : '--';
 
       document.getElementById('efectividadGlobal').innerText = pctGlobal !== '--' ? `${pctGlobal}%` : '--%';
@@ -718,11 +777,22 @@
       document.getElementById('picksSin').innerText = `${resSin.finalizadas} picks evaluados`;
       dibujarCurvaGenerica('equityPathSin', resSin.puntosEquity, '#94a3b8');
 
-      // C) Tarjeta 3: Global Total (Suma exacta unificada de Telegram + Sin Alerta)
-      const totalApostadasGlobal = Math.round((resTG.unidadesApostadas + resSin.unidadesApostadas) * 10) / 10;
-      const totalNetoGlobal = Math.round((resTG.unidadesNetas + resSin.unidadesNetas) * 100) / 100;
+      // B2) Tarjeta 3: Versión arriesgada
+      const resArr = calcularRendimientoGenerico(arriesgadasFin, false);
+      const sNetoArr = resArr.unidadesNetas >= 0 ? '+' : '';
+      const sRoiArr = resArr.roiPct >= 0 ? '+' : '';
+      document.getElementById('balanceNetoArr').innerText = `${sNetoArr}${resArr.unidadesNetas.toFixed(2)} U.`;
+      document.getElementById('yieldRoiArr').innerText = `${sRoiArr}${resArr.roiPct.toFixed(1)}%`;
+      document.getElementById('unidadesGanadasArr').innerText = `${sNetoArr}${resArr.unidadesNetas.toFixed(2)} U.`;
+      document.getElementById('stakeApostadoArr').innerText = `${resArr.unidadesApostadas.toFixed(1)} U.`;
+      document.getElementById('picksArr').innerText = `${resArr.finalizadas} picks evaluados`;
+      dibujarCurvaGenerica('equityPathArr', resArr.puntosEquity, '#f59e0b');
+
+      // C) Tarjeta 4: Global Total (Telegram + Control + Versión arriesgada)
+      const totalApostadasGlobal = Math.round((resTG.unidadesApostadas + resSin.unidadesApostadas + resArr.unidadesApostadas) * 10) / 10;
+      const totalNetoGlobal = Math.round((resTG.unidadesNetas + resSin.unidadesNetas + resArr.unidadesNetas) * 100) / 100;
       const roiGlobal = totalApostadasGlobal > 0 ? (totalNetoGlobal / totalApostadasGlobal) * 100 : 0.0;
-      const totalPicksGlobal = resTG.finalizadas + resSin.finalizadas;
+      const totalPicksGlobal = resTG.finalizadas + resSin.finalizadas + resArr.finalizadas;
 
       const sNetoGlob = totalNetoGlobal >= 0 ? '+' : '';
       const sRoiGlob = roiGlobal >= 0 ? '+' : '';
@@ -733,7 +803,9 @@
       document.getElementById('picksGlobal').innerText = `${totalPicksGlobal} picks evaluados`;
 
       // Fusión de puntos de equity para Global Total
-      const puntosGlobal = resTG.finalizadas > 0 ? resTG.puntosEquity : resSin.puntosEquity;
+      const resGlob = calcularRendimientoGenerico(
+        [...alertasSemanaActual, ...sinAlertaFin, ...arriesgadasFin].sort((x, y) => String((x.fecha || '') + (x.hora || '')).localeCompare(String((y.fecha || '') + (y.hora || '')))), false);
+      const puntosGlobal = resGlob.puntosEquity;
       dibujarCurvaGenerica('equityPathGlobal', puntosGlobal, '#38bdf8');
     }
 
@@ -741,7 +813,7 @@
     // =========================================================================
     // ESTADO DEL BOT (frescura de datos, API de cuotas, créditos)
     // =========================================================================
-    const VERSION_WEB = '1.2';
+    const VERSION_WEB = '1.3';
     function actualizarVersion() {
       const el = document.getElementById('verTxt');
       if (!el) return;
@@ -819,7 +891,7 @@
     }
 
     function restaurarTarjetas() {
-      ['TG', 'Sin', 'Global'].forEach(k => {
+      ['TG', 'Sin', 'Arr', 'Global'].forEach(k => {
         let v = '0';
         try { v = localStorage.getItem('apex_tarjeta_' + k) || '0'; } catch (e) {}
         if (v === '1') toggleTarjeta(k);
@@ -890,28 +962,31 @@
       const tg = picks.filter(p => p.grupo === 'TG');
       const ct = picks.filter(p => p.grupo === 'CONTROL');
       const cb = picks.filter(p => p.grupo === 'COMBI');
-      const rTG = resumenPicks(tg), rCT = resumenPicks(ct), rCB = resumenPicks(cb);
+      const ar = picks.filter(p => p.grupo === 'ARRIESGADA');
+      const rTG = resumenPicks(tg), rCT = resumenPicks(ct), rCB = resumenPicks(cb), rAR = resumenPicks(ar);
 
-      const sTG = serieAcumulada(tg), sCT = serieAcumulada(ct), sCB = serieAcumulada(cb);
-      const todos = sTG.concat(sCT, sCB);
+      const sTG = serieAcumulada(tg), sCT = serieAcumulada(ct), sCB = serieAcumulada(cb), sAR = serieAcumulada(ar);
+      const todos = sTG.concat(sCT, sCB, sAR);
       const min = Math.min(0, ...todos), max = Math.max(1, ...todos);
       const rango = (max - min) || 1;
       const ceroY = (36 - ((0 - min) / rango) * 32).toFixed(1);
 
       // Agrupación por mes y, dentro de cada mes, por semana
-      const vacio = () => ({ TG: [], CONTROL: [], COMBI: [] });
+      const vacio = () => ({ TG: [], CONTROL: [], COMBI: [], ARRIESGADA: [] });
       const meses = {};
       picks.forEach(p => {
         const m = p.mes || 'S/D';
         const s = p.semana_id || 'S/D';
         const mesObj = (meses[m] = meses[m] || { total: vacio(), semanas: {} });
+        if (!mesObj.total[p.grupo]) return;
         mesObj.total[p.grupo].push(p);
         (mesObj.semanas[s] = mesObj.semanas[s] || vacio())[p.grupo].push(p);
       });
       const celdas = (g, claseExtra) => {
-        const a = resumenPicks(g.TG), b = resumenPicks(g.CONTROL), c = resumenPicks(g.COMBI);
-        const cel = (r) => `<td class="${claseExtra} text-right ${colorNum(r.net)}">${r.n ? fmtU(r.net) : '--'}<span class="text-slate-500"> (${r.n})</span></td>`;
-        return cel(a) + cel(b) + (cb.length ? cel(c) : '');
+        const a = resumenPicks(g.TG), b = resumenPicks(g.CONTROL), c = resumenPicks(g.COMBI), d = resumenPicks(g.ARRIESGADA);
+        const t = resumenPicks([...g.TG, ...g.COMBI, ...g.ARRIESGADA]);   // como el Σ Total y el resumen mensual: sin Control
+        const cel = (r, extra = '') => `<td class="${claseExtra} ${extra} text-right ${colorNum(r.net)}">${r.n ? fmtU(r.net) : '--'}<span class="text-slate-500"> (${r.n})</span></td>`;
+        return cel(a) + cel(b) + (cb.length ? cel(c) : '') + (ar.length ? cel(d) : '') + cel(t, 'font-bold');
       };
       const filas = Object.keys(meses).sort().reverse().map(m => {
         const [y, mm] = m.split('-');
@@ -932,7 +1007,7 @@
       // Desglose por mercado y por origen (igual que en Tenis)
       const pctTxt = (r) => r.n ? Math.round(r.w / r.n * 100) + '%' : '--%';
       const filaRes = ([t, r]) => `<tr class="border-t border-slate-800/80"><td class="py-1.5 text-slate-300">${t}</td><td class="text-right text-white font-bold">${pctTxt(r)}</td><td class="text-right text-slate-400">${r.w}V-${r.n - r.w}D</td><td class="text-right ${colorNum(r.net)}">${fmtU(r.net)}</td></tr>`;
-      const tiposMercado = [['GANADOR', '🏆 Victoria'], ['PUNTOS', '🎯 Puntos totales'], ['HANDICAP', '⚖️ Hándicap'], ['PUNTOS_EQUIPO', '📊 Puntos equipo'], ['JUGADOR', '👤 Jugador'], ['MYMATCH', '🧩 Combinada'], ['COMBO_MERCADOS', '🧩 Combinada de mercados'], ['COMBINADA', '🔗 Combinada varios partidos']]
+      const tiposMercado = [['GANADOR', '🏆 Victoria'], ['PUNTOS', '🎯 Puntos totales'], ['HANDICAP', '⚖️ Hándicap'], ['PUNTOS_EQUIPO', '📊 Puntos equipo'], ['JUGADOR', '👤 Jugador'], ['MYMATCH', '🧩 Combinada'], ['COMBO_MERCADOS', '🧩 Combinada de mercados'], ['COMBINADA', '🔗 Combinada varios partidos'], ['ARRIESGADA', '🔺 Versión arriesgada']]
         .map(([k, t]) => [t, resumenPicks(picks.filter(p => p.grupo !== 'CONTROL' && tipoPick(p) === k))]).filter(x => x[1].n);
       const origenes = [['Con cuotas reales', resumenPicks(picks.filter(p => p.grupo !== 'CONTROL' && !p.solo_modelo))], ['Solo modelo (cuota mínima)', resumenPicks(picks.filter(p => p.grupo !== 'CONTROL' && p.solo_modelo))]].filter(x => x[1].n);
       const rTot = resumenPicks(picks.filter(p => p.grupo !== 'CONTROL'));
@@ -940,28 +1015,30 @@
         <div class="p-3 rounded-2xl bg-brand-card border border-brand-border">
           <span class="text-[10px] font-bold uppercase tracking-wide text-slate-400 block mb-1.5">Por mercado y por origen</span>
           <table class="w-full text-[11px] font-mono"><tbody>${tiposMercado.map(filaRes).join('')}${origenes.length ? '<tr><td colspan="4" class="pt-2"></td></tr>' + origenes.map(filaRes).join('') : ''}${rTot.n ? '<tr class="border-t-2 border-slate-600"><td class="py-1.5 text-white font-extrabold">Σ Total</td><td class="text-right text-white font-extrabold">' + pctTxt(rTot) + '</td><td class="text-right text-slate-300 font-bold">' + rTot.w + 'V-' + (rTot.n - rTot.w) + 'D</td><td class="text-right font-extrabold ' + colorNum(rTot.net) + '">' + fmtU(rTot.net) + '</td></tr>' : ''}</tbody></table>
-          <p class="text-[9px] text-slate-500 mt-1.5">Pronósticos enviados (Telegram y combinadas); no incluye Control.</p>
+          <p class="text-[9px] text-slate-500 mt-1.5">Pronósticos enviados (Telegram, combinadas y versión arriesgada); no incluye Control.</p>
         </div>` : '';
 
-      const aviso = (rTG.n + rCT.n + rCB.n) < 50
-        ? `<div class="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-[10px] text-amber-300">Muestra pequeña (${rTG.n + rCT.n + rCB.n} picks). Con menos de ~50 picks el resultado es sobre todo azar: no saques conclusiones todavía.</div>` : '';
+      const aviso = (rTG.n + rCT.n + rCB.n + rAR.n) < 50
+        ? `<div class="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-[10px] text-amber-300">Muestra pequeña (${rTG.n + rCT.n + rCB.n + rAR.n} picks). Con menos de ~50 picks el resultado es sobre todo azar: no saques conclusiones todavía.</div>` : '';
 
       cont.innerHTML = `
-        <div class="grid ${cb.length ? 'grid-cols-3' : 'grid-cols-2'} gap-2">
+        <div class="grid grid-cols-2 gap-2">
           ${tarjetaGrupo('Telegram', '#00f59b', rTG)}
           ${tarjetaGrupo('Control (descartadas)', '#94a3b8', rCT)}
           ${cb.length ? tarjetaGrupo('Combinadas', '#a78bfa', rCB) : ''}
+          ${ar.length ? tarjetaGrupo('🔺 Arriesgada', '#f59e0b', rAR) : ''}
         </div>
         <div class="p-3 rounded-2xl bg-brand-card border border-brand-border">
           <div class="flex items-center justify-between text-[10px] text-slate-400 mb-1.5">
             <span class="font-bold uppercase tracking-wide">Beneficio acumulado</span>
-            <span class="flex items-center gap-2"><span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full" style="background:#00f59b"></span>TG</span><span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full" style="background:#94a3b8"></span>Control</span>${cb.length ? '<span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full" style="background:#a78bfa"></span>Combi</span>' : ''}</span>
+            <span class="flex items-center gap-2"><span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full" style="background:#00f59b"></span>TG</span><span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full" style="background:#94a3b8"></span>Control</span>${cb.length ? '<span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full" style="background:#a78bfa"></span>Combi</span>' : ''}${ar.length ? '<span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full" style="background:#f59e0b"></span>Arries.</span>' : ''}</span>
           </div>
           <div class="h-20 w-full bg-slate-900/80 rounded-xl p-1">
             <svg class="w-full h-full overflow-visible" viewBox="0 0 100 40" preserveAspectRatio="none">
               <line x1="0" y1="${ceroY}" x2="100" y2="${ceroY}" stroke="#334155" stroke-width="0.6" stroke-dasharray="2 2"/>
               ${trazarSerie(sCT, min, rango, '#94a3b8')}
               ${trazarSerie(sCB, min, rango, '#a78bfa')}
+              ${trazarSerie(sAR, min, rango, '#f59e0b')}
               ${trazarSerie(sTG, min, rango, '#00f59b')}
             </svg>
           </div>
@@ -969,7 +1046,7 @@
         <div class="p-3 rounded-2xl bg-brand-card border border-brand-border">
           <span class="text-[10px] font-bold uppercase tracking-wide text-slate-400 block mb-1.5">Por mes · toca un mes para ver sus semanas</span>
           <table class="w-full text-[11px] font-mono">
-            <thead><tr class="text-[9px] uppercase text-slate-500"><th class="text-left font-bold">Mes</th><th class="text-right font-bold">Telegram</th><th class="text-right font-bold">Control</th>${cb.length ? '<th class="text-right font-bold">Combi</th>' : ''}</tr></thead>
+            <thead><tr class="text-[9px] uppercase text-slate-500"><th class="text-left font-bold">Mes</th><th class="text-right font-bold">Telegram</th><th class="text-right font-bold">Control</th>${cb.length ? '<th class="text-right font-bold">Combi</th>' : ''}${ar.length ? '<th class="text-right font-bold">Arries.</th>' : ''}<th class="text-right font-bold">Total</th></tr></thead>
             <tbody>${filas}</tbody>
           </table>
         </div>
