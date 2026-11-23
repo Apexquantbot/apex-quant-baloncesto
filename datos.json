@@ -1,7 +1,7 @@
 {
   "version_bot": "1.3",
-  "ultima_actualizacion": "23:15",
-  "ultima_actualizacion_utc": "2026-11-23T22:15:42Z",
+  "ultima_actualizacion": "23:30",
+  "ultima_actualizacion_utc": "2026-11-23T22:30:52Z",
   "huso_horario": "Europe/Madrid",
   "semana_activa": "2026-W48",
   "lunes_semana": "2026-11-23",
@@ -36,7 +36,7 @@
       "hora_utc": "2026-11-22T23:00:00Z",
       "utcDate": "2026-11-22T23:00:00Z",
       "timestamp_ms": 1795388400000,
-      "minutos_restantes": -1396,
+      "minutos_restantes": -1411,
       "estado": "FINISHED",
       "minuto_juego": null,
       "marcador": "123 - 113",
@@ -111,7 +111,7 @@
       "hora_utc": "2026-11-23T00:00:00Z",
       "utcDate": "2026-11-23T00:00:00Z",
       "timestamp_ms": 1795392000000,
-      "minutos_restantes": -1336,
+      "minutos_restantes": -1351,
       "estado": "FINISHED",
       "minuto_juego": null,
       "marcador": "116 - 96",
@@ -257,7 +257,7 @@
       "hora_utc": "2026-11-23T00:00:00Z",
       "utcDate": "2026-11-23T00:00:00Z",
       "timestamp_ms": 1795392000000,
-      "minutos_restantes": -1336,
+      "minutos_restantes": -1351,
       "estado": "FINISHED",
       "minuto_juego": null,
       "marcador": "145 - 151",
@@ -419,7 +419,7 @@
       "hora_utc": "2026-11-23T00:00:00Z",
       "utcDate": "2026-11-23T00:00:00Z",
       "timestamp_ms": 1795392000000,
-      "minutos_restantes": -1336,
+      "minutos_restantes": -1351,
       "estado": "FINISHED",
       "minuto_juego": null,
       "marcador": "114 - 116",
@@ -533,7 +533,7 @@
       "hora_utc": "2026-11-23T01:00:00Z",
       "utcDate": "2026-11-23T01:00:00Z",
       "timestamp_ms": 1795395600000,
-      "minutos_restantes": -1276,
+      "minutos_restantes": -1291,
       "estado": "FINISHED",
       "minuto_juego": null,
       "marcador": "113 - 106",
@@ -631,7 +631,7 @@
       "hora_utc": "2026-11-23T01:30:00Z",
       "utcDate": "2026-11-23T01:30:00Z",
       "timestamp_ms": 1795397400000,
-      "minutos_restantes": -1246,
+      "minutos_restantes": -1261,
       "estado": "FINISHED",
       "minuto_juego": null,
       "marcador": "88 - 87",
@@ -837,42 +837,269 @@
       "hora_utc": "2026-11-24T00:00:00Z",
       "utcDate": "2026-11-24T00:00:00Z",
       "timestamp_ms": 1795478400000,
-      "minutos_restantes": 104,
+      "minutos_restantes": 89,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
       "goles_local": null,
       "goles_visitante": null,
-      "mercado": null,
-      "tipo_mercado": null,
-      "categoria_visual": null,
-      "equipo_pronosticado": null,
-      "cuota": null,
-      "prob_modelo": null,
-      "ev": null,
-      "ev_numero": null,
-      "stake": null,
-      "n_casas": null,
-      "casa": null,
-      "sel": null,
+      "mercado": "Hándicap Memphis Grizzlies -2.5",
+      "tipo_mercado": "HANDICAP",
+      "categoria_visual": "handicap",
+      "equipo_pronosticado": "Memphis Grizzlies",
+      "cuota": 1.91,
+      "prob_modelo": "59.0%",
+      "ev": "+12.6%",
+      "ev_numero": 12.6,
+      "stake": 1,
+      "n_casas": 10,
+      "casa": "William Hill",
+      "sel": {
+        "t": "HC",
+        "team": "V",
+        "l": -2.5
+      },
       "cuota_ref": null,
       "cuota_minima": null,
-      "sin_modelo_ok": null,
+      "sin_modelo_ok": false,
       "solo_modelo": null,
       "ht_local": null,
       "ht_visitante": null,
       "push": false,
-      "prob_mercado": null,
-      "prob_estadistica": null,
-      "confirmado_stats": null,
-      "xg_local": null,
-      "xg_visitante": null,
-      "tiene_pronostico": false,
-      "analizado": false,
+      "prob_mercado": 50.8,
+      "prob_estadistica": 74.0,
+      "confirmado_stats": true,
+      "xg_local": 103.8,
+      "xg_visitante": 114.8,
+      "tiene_pronostico": true,
+      "analizado": true,
       "nota_cuotas": null,
-      "fav": null,
+      "fav": {
+        "por_casa": {
+          "Winamax (FR)": [
+            {
+              "mercado": "Victoria Memphis Grizzlies (Ganador)",
+              "tipo": "GANADOR",
+              "sel": {
+                "t": "ML",
+                "s": "2"
+              },
+              "equipo": "Memphis Grizzlies",
+              "cuota": 1.6,
+              "prob": 0.649,
+              "ev": 3.8,
+              "confirmado": true
+            }
+          ],
+          "Winamax (DE)": [
+            {
+              "mercado": "Victoria Memphis Grizzlies (Ganador)",
+              "tipo": "GANADOR",
+              "sel": {
+                "t": "ML",
+                "s": "2"
+              },
+              "equipo": "Memphis Grizzlies",
+              "cuota": 1.7,
+              "prob": 0.649,
+              "ev": 10.3,
+              "confirmado": true
+            }
+          ],
+          "Betclic (FR)": [
+            {
+              "mercado": "Victoria Memphis Grizzlies (Ganador)",
+              "tipo": "GANADOR",
+              "sel": {
+                "t": "ML",
+                "s": "2"
+              },
+              "equipo": "Memphis Grizzlies",
+              "cuota": 1.59,
+              "prob": 0.6487,
+              "ev": 3.1,
+              "confirmado": true
+            }
+          ],
+          "William Hill": [
+            {
+              "mercado": "Hándicap Memphis Grizzlies -2.5",
+              "tipo": "HANDICAP",
+              "sel": {
+                "t": "HC",
+                "team": "V",
+                "l": -2.5
+              },
+              "equipo": "Memphis Grizzlies",
+              "cuota": 1.91,
+              "prob": 0.5895,
+              "ev": 12.6,
+              "confirmado": true
+            },
+            {
+              "mercado": "Victoria Memphis Grizzlies (Ganador)",
+              "tipo": "GANADOR",
+              "sel": {
+                "t": "ML",
+                "s": "2"
+              },
+              "equipo": "Memphis Grizzlies",
+              "cuota": 1.7,
+              "prob": 0.6492,
+              "ev": 10.4,
+              "confirmado": true
+            }
+          ],
+          "Betsson": [
+            {
+              "mercado": "Hándicap Memphis Grizzlies -2.5",
+              "tipo": "HANDICAP",
+              "sel": {
+                "t": "HC",
+                "team": "V",
+                "l": -2.5
+              },
+              "equipo": "Memphis Grizzlies",
+              "cuota": 1.83,
+              "prob": 0.5888,
+              "ev": 7.8,
+              "confirmado": true
+            },
+            {
+              "mercado": "Victoria Memphis Grizzlies (Ganador)",
+              "tipo": "GANADOR",
+              "sel": {
+                "t": "ML",
+                "s": "2"
+              },
+              "equipo": "Memphis Grizzlies",
+              "cuota": 1.65,
+              "prob": 0.6489,
+              "ev": 7.1,
+              "confirmado": true
+            }
+          ],
+          "Marathon Bet": [
+            {
+              "mercado": "Hándicap Memphis Grizzlies -2.5",
+              "tipo": "HANDICAP",
+              "sel": {
+                "t": "HC",
+                "team": "V",
+                "l": -2.5
+              },
+              "equipo": "Memphis Grizzlies",
+              "cuota": 1.87,
+              "prob": 0.5891,
+              "ev": 10.2,
+              "confirmado": true
+            },
+            {
+              "mercado": "Victoria Memphis Grizzlies (Ganador)",
+              "tipo": "GANADOR",
+              "sel": {
+                "t": "ML",
+                "s": "2"
+              },
+              "equipo": "Memphis Grizzlies",
+              "cuota": 1.68,
+              "prob": 0.6489,
+              "ev": 9.0,
+              "confirmado": true
+            }
+          ],
+          "888sport": [
+            {
+              "mercado": "Hándicap Memphis Grizzlies -2.5",
+              "tipo": "HANDICAP",
+              "sel": {
+                "t": "HC",
+                "team": "V",
+                "l": -2.5
+              },
+              "equipo": "Memphis Grizzlies",
+              "cuota": 1.91,
+              "prob": 0.5895,
+              "ev": 12.6,
+              "confirmado": true
+            },
+            {
+              "mercado": "Victoria Memphis Grizzlies (Ganador)",
+              "tipo": "GANADOR",
+              "sel": {
+                "t": "ML",
+                "s": "2"
+              },
+              "equipo": "Memphis Grizzlies",
+              "cuota": 1.7,
+              "prob": 0.6492,
+              "ev": 10.4,
+              "confirmado": true
+            }
+          ],
+          "Coolbet": [
+            {
+              "mercado": "Victoria Memphis Grizzlies (Ganador)",
+              "tipo": "GANADOR",
+              "sel": {
+                "t": "ML",
+                "s": "2"
+              },
+              "equipo": "Memphis Grizzlies",
+              "cuota": 1.69,
+              "prob": 0.6489,
+              "ev": 9.7,
+              "confirmado": true
+            }
+          ],
+          "Tipico": [
+            {
+              "mercado": "Victoria Memphis Grizzlies (Ganador)",
+              "tipo": "GANADOR",
+              "sel": {
+                "t": "ML",
+                "s": "2"
+              },
+              "equipo": "Memphis Grizzlies",
+              "cuota": 1.62,
+              "prob": 0.6486,
+              "ev": 5.1,
+              "confirmado": true
+            }
+          ],
+          "Nordic Bet": [
+            {
+              "mercado": "Hándicap Memphis Grizzlies -2.5",
+              "tipo": "HANDICAP",
+              "sel": {
+                "t": "HC",
+                "team": "V",
+                "l": -2.5
+              },
+              "equipo": "Memphis Grizzlies",
+              "cuota": 1.83,
+              "prob": 0.5888,
+              "ev": 7.8,
+              "confirmado": true
+            },
+            {
+              "mercado": "Victoria Memphis Grizzlies (Ganador)",
+              "tipo": "GANADOR",
+              "sel": {
+                "t": "ML",
+                "s": "2"
+              },
+              "equipo": "Memphis Grizzlies",
+              "cuota": 1.65,
+              "prob": 0.6489,
+              "ev": 7.1,
+              "confirmado": true
+            }
+          ]
+        }
+      },
       "semana_id": "2026-W48",
-      "telegram_enviado": false,
+      "telegram_enviado": true,
       "es_empate_ht": false,
       "acertado": null,
       "form_info": {
@@ -912,42 +1139,112 @@
       "hora_utc": "2026-11-24T00:00:00Z",
       "utcDate": "2026-11-24T00:00:00Z",
       "timestamp_ms": 1795478400000,
-      "minutos_restantes": 104,
+      "minutos_restantes": 89,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
       "goles_local": null,
       "goles_visitante": null,
-      "mercado": null,
-      "tipo_mercado": null,
-      "categoria_visual": null,
-      "equipo_pronosticado": null,
-      "cuota": null,
-      "prob_modelo": null,
-      "ev": null,
-      "ev_numero": null,
-      "stake": null,
-      "n_casas": null,
-      "casa": null,
-      "sel": null,
+      "mercado": "Victoria Portland Trail Blazers (Ganador)",
+      "tipo_mercado": "GANADOR",
+      "categoria_visual": "ganador",
+      "equipo_pronosticado": "Portland Trail Blazers",
+      "cuota": 2.3,
+      "prob_modelo": "47.3%",
+      "ev": "+8.9%",
+      "ev_numero": 8.9,
+      "stake": 1,
+      "n_casas": 23,
+      "casa": "Winamax (DE)",
+      "sel": {
+        "t": "ML",
+        "s": "2"
+      },
       "cuota_ref": null,
       "cuota_minima": null,
-      "sin_modelo_ok": null,
+      "sin_modelo_ok": false,
       "solo_modelo": null,
       "ht_local": null,
       "ht_visitante": null,
       "push": false,
-      "prob_mercado": null,
-      "prob_estadistica": null,
-      "confirmado_stats": null,
-      "xg_local": null,
-      "xg_visitante": null,
-      "tiene_pronostico": false,
-      "analizado": false,
+      "prob_mercado": 43.0,
+      "prob_estadistica": 55.3,
+      "confirmado_stats": true,
+      "xg_local": 114.6,
+      "xg_visitante": 116.3,
+      "tiene_pronostico": true,
+      "analizado": true,
       "nota_cuotas": null,
-      "fav": null,
+      "fav": {
+        "por_casa": {
+          "William Hill": [
+            {
+              "mercado": "Hándicap Portland Trail Blazers +2.5",
+              "tipo": "HANDICAP",
+              "sel": {
+                "t": "HC",
+                "team": "V",
+                "l": 2.5
+              },
+              "equipo": "Portland Trail Blazers",
+              "cuota": 1.91,
+              "prob": 0.5373,
+              "ev": 2.6,
+              "confirmado": true
+            }
+          ],
+          "Marathon Bet": [
+            {
+              "mercado": "Hándicap Portland Trail Blazers +2.5",
+              "tipo": "HANDICAP",
+              "sel": {
+                "t": "HC",
+                "team": "V",
+                "l": 2.5
+              },
+              "equipo": "Portland Trail Blazers",
+              "cuota": 1.89,
+              "prob": 0.5372,
+              "ev": 1.5,
+              "confirmado": true
+            }
+          ],
+          "888sport": [
+            {
+              "mercado": "Hándicap Portland Trail Blazers +2.5",
+              "tipo": "HANDICAP",
+              "sel": {
+                "t": "HC",
+                "team": "V",
+                "l": 2.5
+              },
+              "equipo": "Portland Trail Blazers",
+              "cuota": 1.91,
+              "prob": 0.5373,
+              "ev": 2.6,
+              "confirmado": true
+            }
+          ],
+          "Coolbet": [
+            {
+              "mercado": "Hándicap Portland Trail Blazers +2.5",
+              "tipo": "HANDICAP",
+              "sel": {
+                "t": "HC",
+                "team": "V",
+                "l": 2.5
+              },
+              "equipo": "Portland Trail Blazers",
+              "cuota": 1.93,
+              "prob": 0.5374,
+              "ev": 3.7,
+              "confirmado": true
+            }
+          ]
+        }
+      },
       "semana_id": "2026-W48",
-      "telegram_enviado": false,
+      "telegram_enviado": true,
       "es_empate_ht": false,
       "acertado": null,
       "form_info": {
@@ -987,7 +1284,7 @@
       "hora_utc": "2026-11-24T00:30:00Z",
       "utcDate": "2026-11-24T00:30:00Z",
       "timestamp_ms": 1795480200000,
-      "minutos_restantes": 134,
+      "minutos_restantes": 119,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -1062,7 +1359,7 @@
       "hora_utc": "2026-11-24T00:30:00Z",
       "utcDate": "2026-11-24T00:30:00Z",
       "timestamp_ms": 1795480200000,
-      "minutos_restantes": 134,
+      "minutos_restantes": 119,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -1116,8 +1413,8 @@
         "pts_visitante": 110.4,
         "margen": 9.3,
         "total": 230.0,
-        "prob_local": 75.7,
-        "prob_visitante": 24.3
+        "prob_local": 75.0,
+        "prob_visitante": 25.0
       }
     },
     {
@@ -1137,7 +1434,7 @@
       "hora_utc": "2026-11-24T00:30:00Z",
       "utcDate": "2026-11-24T00:30:00Z",
       "timestamp_ms": 1795480200000,
-      "minutos_restantes": 134,
+      "minutos_restantes": 119,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -1212,7 +1509,7 @@
       "hora_utc": "2026-11-24T01:00:00Z",
       "utcDate": "2026-11-24T01:00:00Z",
       "timestamp_ms": 1795482000000,
-      "minutos_restantes": 164,
+      "minutos_restantes": 149,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -1287,7 +1584,7 @@
       "hora_utc": "2026-11-24T01:00:00Z",
       "utcDate": "2026-11-24T01:00:00Z",
       "timestamp_ms": 1795482000000,
-      "minutos_restantes": 164,
+      "minutos_restantes": 149,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -1362,7 +1659,7 @@
       "hora_utc": "2026-11-24T01:30:00Z",
       "utcDate": "2026-11-24T01:30:00Z",
       "timestamp_ms": 1795483800000,
-      "minutos_restantes": 194,
+      "minutos_restantes": 179,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -1437,7 +1734,7 @@
       "hora_utc": "2026-11-24T03:00:00Z",
       "utcDate": "2026-11-24T03:00:00Z",
       "timestamp_ms": 1795489200000,
-      "minutos_restantes": 284,
+      "minutos_restantes": 269,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -1512,7 +1809,7 @@
       "hora_utc": "2026-11-24T03:00:00Z",
       "utcDate": "2026-11-24T03:00:00Z",
       "timestamp_ms": 1795489200000,
-      "minutos_restantes": 284,
+      "minutos_restantes": 269,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -1587,7 +1884,7 @@
       "hora_utc": "2026-11-25T00:00:00Z",
       "utcDate": "2026-11-25T00:00:00Z",
       "timestamp_ms": 1795564800000,
-      "minutos_restantes": 1544,
+      "minutos_restantes": 1529,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -1662,7 +1959,7 @@
       "hora_utc": "2026-11-25T01:00:00Z",
       "utcDate": "2026-11-25T01:00:00Z",
       "timestamp_ms": 1795568400000,
-      "minutos_restantes": 1604,
+      "minutos_restantes": 1589,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -1737,7 +2034,7 @@
       "hora_utc": "2026-11-25T03:00:00Z",
       "utcDate": "2026-11-25T03:00:00Z",
       "timestamp_ms": 1795575600000,
-      "minutos_restantes": 1724,
+      "minutos_restantes": 1709,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -1812,7 +2109,7 @@
       "hora_utc": "2026-11-25T22:00:00Z",
       "utcDate": "2026-11-25T22:00:00Z",
       "timestamp_ms": 1795644000000,
-      "minutos_restantes": 2864,
+      "minutos_restantes": 2849,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -1887,7 +2184,7 @@
       "hora_utc": "2026-11-26T00:00:00Z",
       "utcDate": "2026-11-26T00:00:00Z",
       "timestamp_ms": 1795651200000,
-      "minutos_restantes": 2984,
+      "minutos_restantes": 2969,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -1962,7 +2259,7 @@
       "hora_utc": "2026-11-26T00:30:00Z",
       "utcDate": "2026-11-26T00:30:00Z",
       "timestamp_ms": 1795653000000,
-      "minutos_restantes": 3014,
+      "minutos_restantes": 2999,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -2037,7 +2334,7 @@
       "hora_utc": "2026-11-26T00:30:00Z",
       "utcDate": "2026-11-26T00:30:00Z",
       "timestamp_ms": 1795653000000,
-      "minutos_restantes": 3014,
+      "minutos_restantes": 2999,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -2091,8 +2388,8 @@
         "pts_visitante": 108.7,
         "margen": -1.8,
         "total": 215.7,
-        "prob_local": 45.6,
-        "prob_visitante": 54.4
+        "prob_local": 44.8,
+        "prob_visitante": 55.2
       }
     },
     {
@@ -2112,7 +2409,7 @@
       "hora_utc": "2026-11-26T01:00:00Z",
       "utcDate": "2026-11-26T01:00:00Z",
       "timestamp_ms": 1795654800000,
-      "minutos_restantes": 3044,
+      "minutos_restantes": 3029,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -2187,7 +2484,7 @@
       "hora_utc": "2026-11-26T01:00:00Z",
       "utcDate": "2026-11-26T01:00:00Z",
       "timestamp_ms": 1795654800000,
-      "minutos_restantes": 3044,
+      "minutos_restantes": 3029,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -2262,7 +2559,7 @@
       "hora_utc": "2026-11-26T01:30:00Z",
       "utcDate": "2026-11-26T01:30:00Z",
       "timestamp_ms": 1795656600000,
-      "minutos_restantes": 3074,
+      "minutos_restantes": 3059,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -2337,7 +2634,7 @@
       "hora_utc": "2026-11-26T03:00:00Z",
       "utcDate": "2026-11-26T03:00:00Z",
       "timestamp_ms": 1795662000000,
-      "minutos_restantes": 3164,
+      "minutos_restantes": 3149,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -2412,7 +2709,7 @@
       "hora_utc": "2026-11-26T03:00:00Z",
       "utcDate": "2026-11-26T03:00:00Z",
       "timestamp_ms": 1795662000000,
-      "minutos_restantes": 3164,
+      "minutos_restantes": 3149,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -2466,8 +2763,8 @@
         "pts_visitante": 113.0,
         "margen": -1.7,
         "total": 224.3,
-        "prob_local": 45.3,
-        "prob_visitante": 54.7
+        "prob_local": 44.5,
+        "prob_visitante": 55.5
       }
     },
     {
@@ -2487,7 +2784,7 @@
       "hora_utc": "2026-11-25T19:45:00Z",
       "utcDate": "2026-11-25T19:45:00Z",
       "timestamp_ms": 1795635900000,
-      "minutos_restantes": 2729,
+      "minutos_restantes": 2714,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -2562,7 +2859,7 @@
       "hora_utc": "2026-11-25T19:30:00Z",
       "utcDate": "2026-11-25T19:30:00Z",
       "timestamp_ms": 1795635000000,
-      "minutos_restantes": 2714,
+      "minutos_restantes": 2699,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -2637,7 +2934,7 @@
       "hora_utc": "2026-11-25T19:15:00Z",
       "utcDate": "2026-11-25T19:15:00Z",
       "timestamp_ms": 1795634100000,
-      "minutos_restantes": 2699,
+      "minutos_restantes": 2684,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -2712,7 +3009,7 @@
       "hora_utc": "2026-11-25T16:00:00Z",
       "utcDate": "2026-11-25T16:00:00Z",
       "timestamp_ms": 1795622400000,
-      "minutos_restantes": 2504,
+      "minutos_restantes": 2489,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -2787,7 +3084,7 @@
       "hora_utc": "2026-11-24T20:00:00Z",
       "utcDate": "2026-11-24T20:00:00Z",
       "timestamp_ms": 1795550400000,
-      "minutos_restantes": 1304,
+      "minutos_restantes": 1289,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -2862,7 +3159,7 @@
       "hora_utc": "2026-11-24T19:45:00Z",
       "utcDate": "2026-11-24T19:45:00Z",
       "timestamp_ms": 1795549500000,
-      "minutos_restantes": 1289,
+      "minutos_restantes": 1274,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -2937,7 +3234,7 @@
       "hora_utc": "2026-11-24T19:30:00Z",
       "utcDate": "2026-11-24T19:30:00Z",
       "timestamp_ms": 1795548600000,
-      "minutos_restantes": 1274,
+      "minutos_restantes": 1259,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -3012,7 +3309,7 @@
       "hora_utc": "2026-11-24T19:00:00Z",
       "utcDate": "2026-11-24T19:00:00Z",
       "timestamp_ms": 1795546800000,
-      "minutos_restantes": 1244,
+      "minutos_restantes": 1229,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -3087,7 +3384,7 @@
       "hora_utc": "2026-11-24T18:00:00Z",
       "utcDate": "2026-11-24T18:00:00Z",
       "timestamp_ms": 1795543200000,
-      "minutos_restantes": 1184,
+      "minutos_restantes": 1169,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -3162,7 +3459,7 @@
       "hora_utc": "2026-11-24T17:00:00Z",
       "utcDate": "2026-11-24T17:00:00Z",
       "timestamp_ms": 1795539600000,
-      "minutos_restantes": 1124,
+      "minutos_restantes": 1109,
       "estado": "TIMED",
       "minuto_juego": null,
       "marcador": null,
@@ -3221,14 +3518,14 @@
       }
     }
   ],
-  "creditos_odds_restantes": 240.0,
+  "creditos_odds_restantes": 234.0,
   "api_cuotas_estado": "ok",
   "creditos_dia": {
     "fecha": "2026-11-23",
     "restante_inicio": 255.0
   },
   "formas_equipos": {
-    "t": "2026-11-23T22:15:42Z",
+    "t": "2026-11-23T22:30:52Z",
     "e": {
       "nba18": "W-W-W-W-W",
       "nba28": "L-L-L-L-W",
@@ -3327,7 +3624,7 @@
   },
   "telegram_ok": true,
   "diagnostico": {
-    "perfil_mercados": null,
+    "perfil_mercados": "reducido",
     "presupuesto_dia": 31.9,
     "partidos_api": 39,
     "atascados": 0,
@@ -14637,6 +14934,337 @@
         "prob": 40.8,
         "cuota_min": 2.65,
         "acertado": true
+      }
+    },
+    {
+      "id_partido": "nba401910036",
+      "id_alerta": "nba401910036_HANDICAP",
+      "partido": "Charlotte Hornets vs Memphis Grizzlies",
+      "local": "Charlotte Hornets",
+      "visitante": "Memphis Grizzlies",
+      "escudo_local": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/cha.png",
+      "escudo_visitante": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/mem.png",
+      "mercado": "Hándicap Memphis Grizzlies -2.5",
+      "tipo_mercado": "HANDICAP",
+      "categoria_visual": "handicap",
+      "equipo_pronosticado": "Memphis Grizzlies",
+      "casa": "William Hill",
+      "sel": {
+        "t": "HC",
+        "team": "V",
+        "l": -2.5
+      },
+      "cuota_ref": null,
+      "cuota_minima": null,
+      "prob_modelo": "59.0%",
+      "cuotas_reales": true,
+      "solo_modelo": false,
+      "liga": "NBA",
+      "liga_code": "NBA",
+      "confirmado_stats": true,
+      "cuota": "@1.91",
+      "ev": "+12.6%",
+      "stake": "1/10",
+      "hora": "01:00",
+      "fecha": "2026-11-24",
+      "fecha_hora_display": "24/11 • 01:00",
+      "semana_id": "2026-W48",
+      "es_ht": false,
+      "es_semana_actual": true,
+      "estado_partido": "TIMED",
+      "marcador": null,
+      "marcador_final": null,
+      "finalizado": false,
+      "acertado": null,
+      "liquidada_telegram": false
+    },
+    {
+      "id_partido": "nba401910037",
+      "id_alerta": "nba401910037_GANADOR",
+      "partido": "Philadelphia 76ers vs Portland Trail Blazers",
+      "local": "Philadelphia 76ers",
+      "visitante": "Portland Trail Blazers",
+      "escudo_local": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/phi.png",
+      "escudo_visitante": "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/por.png",
+      "mercado": "Victoria Portland Trail Blazers (Ganador)",
+      "tipo_mercado": "GANADOR",
+      "categoria_visual": "ganador",
+      "equipo_pronosticado": "Portland Trail Blazers",
+      "casa": "Winamax (DE)",
+      "sel": {
+        "t": "ML",
+        "s": "2"
+      },
+      "cuota_ref": null,
+      "cuota_minima": null,
+      "prob_modelo": "47.3%",
+      "cuotas_reales": true,
+      "solo_modelo": false,
+      "liga": "NBA",
+      "liga_code": "NBA",
+      "confirmado_stats": true,
+      "cuota": "@2.3",
+      "ev": "+8.9%",
+      "stake": "1/10",
+      "hora": "01:00",
+      "fecha": "2026-11-24",
+      "fecha_hora_display": "24/11 • 01:00",
+      "semana_id": "2026-W48",
+      "es_ht": false,
+      "es_semana_actual": true,
+      "estado_partido": "TIMED",
+      "marcador": null,
+      "marcador_final": null,
+      "finalizado": false,
+      "acertado": null,
+      "liquidada_telegram": false
+    },
+    {
+      "id_partido": "nba401910036",
+      "id_alerta": "MM_nba401910036",
+      "partido": "Charlotte Hornets vs Memphis Grizzlies",
+      "mercado": "Naz Reid: Más de 9,5 puntos + Cam Spencer: Más de 2,5 asistencias + Ganador: Memphis Grizzlies",
+      "tipo_mercado": "MYMATCH",
+      "categoria_visual": "mymatch",
+      "es_mymatch": true,
+      "titulo": "Combinada",
+      "legs": [
+        {
+          "t": "JUG",
+          "jid": "nba4396971",
+          "jugador": "Naz Reid",
+          "stat": "pts",
+          "l": 9.5,
+          "equipo": "nba30",
+          "nombre_equipo": null,
+          "mercado": "Naz Reid: Más de 9,5 puntos",
+          "partido": "Charlotte Hornets vs Memphis Grizzlies",
+          "prob": 93.0,
+          "media": 18.6,
+          "cuota": 1.08,
+          "fecha_hora_display": "24/11 • 01:00",
+          "res": null,
+          "valor": null
+        },
+        {
+          "t": "JUG",
+          "jid": "nba4433083",
+          "jugador": "Cam Spencer",
+          "stat": "ast",
+          "l": 2.5,
+          "equipo": "nba29",
+          "nombre_equipo": null,
+          "mercado": "Cam Spencer: Más de 2,5 asistencias",
+          "partido": "Charlotte Hornets vs Memphis Grizzlies",
+          "prob": 93.0,
+          "media": 7.3,
+          "cuota": 1.08,
+          "fecha_hora_display": "24/11 • 01:00",
+          "res": null,
+          "valor": null
+        },
+        {
+          "t": "ML",
+          "jid": null,
+          "jugador": null,
+          "stat": null,
+          "l": null,
+          "equipo": "nba29",
+          "nombre_equipo": "Memphis Grizzlies",
+          "mercado": "Ganador: Memphis Grizzlies",
+          "partido": "Charlotte Hornets vs Memphis Grizzlies",
+          "prob": 79.4,
+          "media": null,
+          "cuota": 1.26,
+          "fecha_hora_display": "24/11 • 01:00",
+          "res": null,
+          "valor": null
+        }
+      ],
+      "casa": "Winamax (combinada)",
+      "cuota": "@1.56",
+      "cuota_minima": true,
+      "ev": "+8.0%",
+      "prob_combinada": 69.0,
+      "stake": "1/10",
+      "hora": "01:00",
+      "fecha": "2026-11-24",
+      "fecha_hora_display": "24/11 • 01:00",
+      "liga": "NBA",
+      "liga_code": "NBA",
+      "semana_id": "2026-W48",
+      "es_ht": false,
+      "es_semana_actual": true,
+      "estado_partido": "TIMED",
+      "marcador": null,
+      "marcador_final": null,
+      "finalizado": false,
+      "acertado": null,
+      "liquidada_telegram": false,
+      "cuotas_reales": false,
+      "solo_modelo": true,
+      "arriesgada": {
+        "mercado": "Naz Reid: Más de 14,5 puntos + Cam Spencer: Más de 4,5 asistencias + Ganador: Memphis Grizzlies",
+        "patas": [
+          {
+            "mercado": "Naz Reid: Más de 14,5 puntos",
+            "prob": 71.2,
+            "jid": "nba4396971",
+            "stat": "pts",
+            "l": 14.5,
+            "t": "JUG"
+          },
+          {
+            "mercado": "Cam Spencer: Más de 4,5 asistencias",
+            "prob": 75.8,
+            "jid": "nba4433083",
+            "stat": "ast",
+            "l": 4.5,
+            "t": "JUG"
+          },
+          {
+            "mercado": "Ganador: Memphis Grizzlies",
+            "prob": 79.4,
+            "jid": null,
+            "stat": null,
+            "l": null,
+            "t": "ML"
+          }
+        ],
+        "prob": 42.9,
+        "cuota_min": 2.52
+      }
+    },
+    {
+      "id_partido": "nba401910036",
+      "id_alerta": "PROP_nba401910036",
+      "partido": "Charlotte Hornets vs Memphis Grizzlies",
+      "mercado": "Naz Reid: Más de 24,5 puntos + rebotes + asistencias",
+      "tipo_mercado": "JUGADOR",
+      "categoria_visual": "jugador",
+      "es_mymatch": true,
+      "titulo": "Jugador",
+      "legs": [
+        {
+          "t": "JUG",
+          "jid": "nba4396971",
+          "jugador": "Naz Reid",
+          "stat": "pra",
+          "l": 24.5,
+          "equipo": "nba30",
+          "nombre_equipo": null,
+          "mercado": "Naz Reid: Más de 24,5 puntos + rebotes + asistencias",
+          "partido": "Charlotte Hornets vs Memphis Grizzlies",
+          "prob": 72.4,
+          "media": 30.7,
+          "cuota": 1.38,
+          "fecha_hora_display": "24/11 • 01:00",
+          "res": null,
+          "valor": null
+        }
+      ],
+      "casa": null,
+      "cuota": "@1.49",
+      "cuota_minima": true,
+      "ev": "+8.0%",
+      "prob_combinada": 72.4,
+      "stake": "1/10",
+      "hora": "01:00",
+      "fecha": "2026-11-24",
+      "fecha_hora_display": "24/11 • 01:00",
+      "liga": "NBA",
+      "liga_code": "NBA",
+      "semana_id": "2026-W48",
+      "es_ht": false,
+      "es_semana_actual": true,
+      "estado_partido": "TIMED",
+      "marcador": null,
+      "marcador_final": null,
+      "finalizado": false,
+      "acertado": null,
+      "liquidada_telegram": false,
+      "cuotas_reales": false,
+      "solo_modelo": true,
+      "arriesgada": {
+        "mercado": "Naz Reid: Más de 29,5 puntos + rebotes + asistencias",
+        "patas": [
+          {
+            "mercado": "Naz Reid: Más de 29,5 puntos + rebotes + asistencias",
+            "prob": 53.5,
+            "jid": "nba4396971",
+            "stat": "pra",
+            "l": 29.5,
+            "t": "JUG"
+          }
+        ],
+        "prob": 53.5,
+        "cuota_min": 2.02
+      }
+    },
+    {
+      "id_partido": "nba401910037",
+      "id_alerta": "PROP_nba401910037",
+      "partido": "Philadelphia 76ers vs Portland Trail Blazers",
+      "mercado": "Tyrese Maxey: Más de 4,5 asistencias",
+      "tipo_mercado": "JUGADOR",
+      "categoria_visual": "jugador",
+      "es_mymatch": true,
+      "titulo": "Jugador",
+      "legs": [
+        {
+          "t": "JUG",
+          "jid": "nba4431678",
+          "jugador": "Tyrese Maxey",
+          "stat": "ast",
+          "l": 4.5,
+          "equipo": "nba20",
+          "nombre_equipo": null,
+          "mercado": "Tyrese Maxey: Más de 4,5 asistencias",
+          "partido": "Philadelphia 76ers vs Portland Trail Blazers",
+          "prob": 73.8,
+          "media": 6.2,
+          "cuota": 1.36,
+          "fecha_hora_display": "24/11 • 01:00",
+          "res": null,
+          "valor": null
+        }
+      ],
+      "casa": null,
+      "cuota": "@1.46",
+      "cuota_minima": true,
+      "ev": "+8.0%",
+      "prob_combinada": 73.8,
+      "stake": "1/10",
+      "hora": "01:00",
+      "fecha": "2026-11-24",
+      "fecha_hora_display": "24/11 • 01:00",
+      "liga": "NBA",
+      "liga_code": "NBA",
+      "semana_id": "2026-W48",
+      "es_ht": false,
+      "es_semana_actual": true,
+      "estado_partido": "TIMED",
+      "marcador": null,
+      "marcador_final": null,
+      "finalizado": false,
+      "acertado": null,
+      "liquidada_telegram": false,
+      "cuotas_reales": false,
+      "solo_modelo": true,
+      "arriesgada": {
+        "mercado": "Tyrese Maxey: Más de 6,5 asistencias",
+        "patas": [
+          {
+            "mercado": "Tyrese Maxey: Más de 6,5 asistencias",
+            "prob": 45.1,
+            "jid": "nba4431678",
+            "stat": "ast",
+            "l": 6.5,
+            "t": "JUG"
+          }
+        ],
+        "prob": 45.1,
+        "cuota_min": 2.39
       }
     }
   ]
